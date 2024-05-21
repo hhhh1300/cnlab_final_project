@@ -34,7 +34,7 @@ export default function Page() {
         ))}
       </div> */}
       <Button className="bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold">
-        <Link href="/user/profile" className="text-sm lg:text-lg">
+        <Link href="/user/create_activities" className="text-sm lg:text-lg">
           Create Activities
         </Link>
       </Button>

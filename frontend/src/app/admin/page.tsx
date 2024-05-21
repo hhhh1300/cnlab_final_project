@@ -17,7 +17,7 @@ export default function Page() {
         </Link>
       </Button>
       <Button className="bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold">
-        <Link href="/user/profile" className="text-sm lg:text-lg">
+        <Link href="/admin/create_activities" className="text-sm lg:text-lg">
           辦理官方講座
         </Link>
       </Button>
