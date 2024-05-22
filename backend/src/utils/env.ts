@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export const env = {
   DBHOST: process.env.DBHOST || 'localhost',
-  DBUSER: process.env.DBUSER || 'mysql',
+  DBUSER: process.env.DBUSER || 'root',
   DBDATABASE: process.env.DBDATABASE || 'mysql',
   DBPASSWORD: process.env.DBPASSWORD || 'mysql',
   DBPORT: Number(process.env.DBPORT) || 3306,

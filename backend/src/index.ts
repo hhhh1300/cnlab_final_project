@@ -4,6 +4,7 @@ import compression from 'compression';
 import { env } from '@/utils/env';
 import cors from 'cors';
 import { databaseConnection, pool, sessionStore } from '@/model/init';
+import routes from '@/routes';
 
 const app = express();
 
@@ -36,7 +37,7 @@ app.use(
     },
   })
 );
-// app.use('/api', routes);
+app.use('/api', routes);
 
 app.listen(8080, () => {
   databaseConnection();
