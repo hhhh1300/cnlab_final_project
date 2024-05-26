@@ -10,16 +10,13 @@ cd frontend && npm install
 cd ../backend && npm install
 ```
 
-3. 建立 .env 檔案
+2. 建立 .env 檔案
 
 把 .env 檔案貼到 backend 資料夾裡面，
 
-需要依據 `backend/.env.example` 的欄位寫到 `.env` 中，需要額外連接 [google](https://console.cloud.google.com/) 和 [facebook](https://developers.facebook.com/?locale=zh_TW) 的 api，
-以及 linepay 的 api，
+需要依據 `backend/.env.example` 的欄位寫到 `.env` 中。
 
-另外 google 和 facebook 的 api 需要設定 callback url，分別是 `http://localhost:8080/api/user/google/callback` 和 `http://localhost:8080/api/user/facebook/callback`。
-
-4. 開啟檔案
+3. 開啟檔案
 
 需要開啟兩個 terminal 分別執行 backend 和 frontend
     
@@ -31,7 +28,7 @@ cd backend && npm run dev
 cd frontend && npm run dev
 ```
 
-同時使用 docker-compose 啟動 postgres
+同時使用 docker-compose 啟動 mysql
 
 ```bash
 cd backend
@@ -39,4 +36,6 @@ cd backend
 docker compose up -d
 ```
 
-5. 打開 `localhost:3000`，開始使用
+你可以連接到 localhost:8081 啟動 adminer
+
+4. 打開 `localhost:3000`，開始使用

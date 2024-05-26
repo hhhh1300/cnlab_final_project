@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # MySQL
+  db:
+    image: mysql
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: mysql
+    volumes:
+      - "./mysql/data:/var/lib/mysql" 
+      - "./mysql/config:/etc/mysql/conf.d"  
+  # adminer is a simple frontend for you to interact with the database
+  adminer:
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - 8081:8080
