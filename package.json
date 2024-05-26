@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@radix-ui/react-context-menu": "^2.1.5"
+    "@radix-ui/react-context-menu": "^2.1.5",
+    "mysql2": "^3.9.7"
   }
 }

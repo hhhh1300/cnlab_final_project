@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+
 import {
   Form,
   FormControl,
@@ -41,9 +42,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+
 import { FaLocationCrosshairs, FaTag } from 'react-icons/fa6';
 
+
 import {DateTimePicker} from '@/components/DateTimePicker';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -56,6 +60,7 @@ import type { ActivityData } from '@/lib/shared_types';
 
 
 import { z } from "zod"
+
 
 type CreateActivitySheetProps = {
   isOfficial: boolean;
@@ -82,6 +87,9 @@ export default function CreateActivitySheet({
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+  
+  function handleSubmit() {
+  }
 
   const handleRegStart = () => {
     
@@ -286,3 +294,4 @@ export default function CreateActivitySheet({
     </form>
   </Form>
 )}
+
