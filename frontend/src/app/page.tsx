@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function Page() {
+  
   return (
     <main>
       <div className="flex flex-col sm:p-4 text-sm lg:text-lg">

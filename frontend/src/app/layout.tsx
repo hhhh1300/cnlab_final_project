@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-tw">
       <body className={font.className}>
-        <div className="pb-20 pt-28">{children}</div>
+        <div className="p-0 m-0">{children}</div>
       </body>
     </html>
   );
