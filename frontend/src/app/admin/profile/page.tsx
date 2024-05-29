@@ -1,35 +1,44 @@
+// frontend/src/app/admin/profile/page.tsx
+
 'use client';
 
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useState } from "react";
+import profilesData, { Profile } from "./data";
 
-import { useState, useEffect } from 'react';
+const SearchProfile = () => {
+  const [searchId, setSearchId] = useState<string>("");
+  const [profile, setProfile] = useState<Profile | null>(null);
 
-import ProfileLayout from '@/app/admin/profile/layout';
+  const handleSearch = () => {
+    const foundProfile = profilesData.find(p => p.studentId === searchId);
+    setProfile(foundProfile || null);
+  };
 
-
-export default function Page() {
- 
-  const [Id, setUserId] = useState('');
-  useEffect(() => {
-      document.title = "Profile Page";
-      // get(`/api/user`, { userid: props.userId }).then((userObj) => setUser(userObj));
-  }, []);
   return (
-    <>
-      <div className='bg-white text-center text-black rounded-lg transition font-semibold flex flex-col justify-center h-[20vh]'> 
-        <h1>搜尋用戶</h1>
+    <div>
+      <h1>Search Profile</h1>
+      <div>
         <input
           type="text"
-          value={Id}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="輸入學號"
+          placeholder="Enter Student ID"
+          value={searchId}
+          onChange={(e) => setSearchId(e.target.value)}
         />
-        <Link href={`/admin/profile/${Id}`} className="text-sm lg:text-lg">
-          搜尋
-        </Link>
+        <button onClick={handleSearch}>Search</button>
       </div>
-    </>
-    
+      {profile ? (
+        <div>
+          <h2>Profile Details</h2>
+          <p><strong>Name:</strong> {profile.name}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Major:</strong> {profile.major}</p>
+        </div>
+      ) : (
+        searchId && <p>No profile found for ID {searchId}</p>
+      )}
+    </div>
   );
 }
+
+export default SearchProfile;
+
