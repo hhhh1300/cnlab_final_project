@@ -1,4 +1,9 @@
-import { getActivityAll, createActivity } from '@/controllers/activity.controller';
+import {
+  getActivityAll,
+  getActivityById,
+  joinActivity,
+  createActivity,
+} from '@/controllers/activity.controller';
 import express from 'express';
 import { isAuth } from '@/utils/isAuth';
 
@@ -6,5 +11,9 @@ const router = express.Router();
 
 router.post('/', createActivity);
 router.get('/', getActivityAll);
+
+router.get('/id', getActivityById);
+
+router.post('/', joinActivity);
 
 export default router;

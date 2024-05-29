@@ -10,20 +10,34 @@ export default function useActivity() {
     return data;
   };
 
-
-  const createActivity = async (payload, isOfficial, dates) => {
-      console.log(payload.topic)
-      console.log(dates)
-    const { data, status } = await instance.post('/activity', {
+  const getActivityById = async (activity_id: string) => {
+    const { data, status } = await instance.get('/activity/id', {
       params: {
-        payload,
-        isOfficial,
-        dates,
-
+        activity_id,
       },
     });
     return data;
   };
 
-  return { getAllActivity, createActivity };
+  const joinActivity = async (activity_id: string) => {
+    const { data, status } = await instance.post('/activity', {
+      activity_id,
+    });
+    return data;
+  };
+
+  const createActivity = async (payload, isOfficial, dates) => {
+    console.log(payload.topic);
+    console.log(dates);
+    const { data, status } = await instance.post('/activity', {
+      params: {
+        payload,
+        isOfficial,
+        dates,
+      },
+    });
+    return data;
+  };
+
+  return { getAllActivity, getActivityById, joinActivity, createActivity };
 }

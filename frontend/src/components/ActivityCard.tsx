@@ -31,15 +31,14 @@ function formatDateTime(isoString: Date | undefined): string {
   return `${year} 年 ${month} 月 ${day} 日 ${hour} 點 ${minute} 分`;
 }
 
-type Activity = ActivityData & {
-  member_id: string;
-  name: string;
-};
+// type Activity = ActivityData & {
+//   member_id: string;
+//   name: string;
+// };
+type Activity = ActivityData;
 
 type ActivityCardProps = {
   activity: Activity | undefined;
-  member_capacity: number | undefined;
-  traffic_capacity: number | undefined;
   status: () => string | undefined;
   handleClick: () => void;
   identity: string | undefined;
@@ -48,13 +47,12 @@ type ActivityCardProps = {
 
 export default function ActivityCard({
   activity,
-  member_capacity,
-  traffic_capacity,
   status,
   handleClick,
   identity,
   isLoading,
 }: ActivityCardProps) {
+  console.log(activity);
   const ButtonName = () => {
     if (identity === 'Host') return '刪除活動';
     if (identity === 'Participant') return '退出活動';
@@ -71,7 +69,9 @@ export default function ActivityCard({
     <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
       <CardHeader className="bg-gray-50 p-6">
         <CardTitle className="text-2xl font-semibold text-gray-900">{activity?.title}</CardTitle>
-        <CardDescription className="text-gray-700 mt-2">{activity?.description}</CardDescription>
+        <CardDescription className="text-gray-700 mt-2">
+          {activity?.activity_content}
+        </CardDescription>
       </CardHeader>
       <CardContent className="bg-white p-6 space-y-6 flex-grow">
         <div className="flex items-center space-x-3">
@@ -85,9 +85,9 @@ export default function ActivityCard({
           >
             {status ? status() : ''}
           </Badge>
-          {member_capacity && member_capacity === 0 && (
+          {/* {member_capacity && member_capacity === 0 && (
             <Badge className="ml-2 text-gray-100 bg-red-500">已額滿</Badge>
-          )}
+          )} */}
         </div>
         <div className="border-t border-gray-200 pt-4">
           <div className="flex items-center space-x-3">
@@ -155,7 +155,7 @@ export default function ActivityCard({
             <FaRegUser className="w-5 h-5 text-gray-700" />
             <div>
               <span className="text-gray-600">已報名人數:</span>
-              <span className="ml-2 text-gray-900">{member_capacity ? member_capacity : 0}</span>
+              {/* <span className="ml-2 text-gray-900">{member_capacity ? member_capacity : 0}</span> */}
             </div>
           </div>
           <div className="flex items-center space-x-3 mt-4">
@@ -170,7 +170,7 @@ export default function ActivityCard({
           <FaTag className="w-5 h-5 text-gray-700" />
           <div>
             <span className="text-gray-600">分類:</span>
-            <span className="ml-2 text-gray-900"> {getLabelByType(activity?.activity_tag)}</span>
+            {/* <span className="ml-2 text-gray-900"> {getLabelByType(activity?.activity_tag)}</span> */}
           </div>
         </div>
         <div className="border-t border-gray-200 pt-4">

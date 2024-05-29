@@ -20,6 +20,14 @@ const ActivityDataSchema = z.object({
   is_official: z.boolean(),
 });
 
+const MemberDataSchema = z.object({
+  message_id: z.string(),
+  name: z.string(),
+  password: z.string(),
+  member_role: z.enum(['Admin', 'User']),
+  traffic: z.number().int(),
+});
+
 const MessageDataSchema = z.object({
   message_id: z.string(),
   chatgroup_id: z.string(),
@@ -31,3 +39,5 @@ const MessageDataSchema = z.object({
 export type ActivityData = z.infer<typeof ActivityDataSchema>;
 //export ActivityDataSchema;
 export type MessageData = z.infer<typeof MessageDataSchema>;
+
+export type MemberData = z.infer<typeof MemberDataSchema>;
