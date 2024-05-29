@@ -20,7 +20,6 @@ export const useMember = create<state & actions>((set) => ({
   fetchMember: async () => {
     // get status from server
     const { data } = await axios.get(`/user/islogin`);
-    console.log(data);
     if (data) {
       set({ member: data });
     }

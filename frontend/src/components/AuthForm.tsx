@@ -63,7 +63,7 @@ export default function AuthForm() {
       axios
         .post(`/user/register`, data)
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 200) {
             toast.success('註冊成功');
             setVariant('LOGIN');
           }

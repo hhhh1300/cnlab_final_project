@@ -1,15 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { pool } from '@/model/init';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
 
 import passport from 'passport';
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
-
-import { env } from '@/utils/env';
-import { backendurl } from '@/utils/url';
-import { createConnection } from 'mysql2';
 
 passport.use(
   new LocalStrategy(
@@ -52,14 +46,13 @@ passport.use(
   )
 );
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user: any, done) => {
-  console.log('serializeUser', user);
+  // console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(async (user: any, done) => {
-  console.log('deserializeUser', user);
+  // console.log('deserializeUser', user);
   const query = `SELECT * FROM member WHERE member_id = ?`;
   const values = [user.member_id];
   pool.getConnection((err: any, connection: any) => {
