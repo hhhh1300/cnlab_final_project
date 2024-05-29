@@ -4,6 +4,9 @@
 import { useState } from "react";
 import eventsData, { Event } from "./data";
 
+// import useActivity from '@/hooks/useActivity';
+import type { ActivityData } from '@/lib/shared_types';
+
 const AuditActivity = () => {
   const [events, setEvents] = useState<Event[]>(eventsData);
 
