@@ -33,7 +33,7 @@ export default function Navbar() {
                 </Link>
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "create_activities" ? "font-bold" : ""}`}>
-                <Link href="/user/create_activities" className="text-sm lg:text-lg">
+                <Link href="/user/activity/create" className="text-sm lg:text-lg">
                 Create Activities
                 </Link>
             </Button>
