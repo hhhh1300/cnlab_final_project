@@ -28,8 +28,8 @@ export default function Navbar() {
                 </Link>
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "activity" ? "font-bold" : ""}`}>
-                <Link href="/admin/activity" className="text-sm lg:text-lg">
-                Activity List
+                <Link href="/admin/activity/manage" className="text-sm lg:text-lg">
+                Audit Activity 
                 </Link>
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "activity" ? "font-bold" : ""}`}>
@@ -38,7 +38,7 @@ export default function Navbar() {
                 </Link>
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "create_activities" ? "font-bold" : ""}`}>
-                <Link href="/admin/create_activities" className="text-sm lg:text-lg">
+                <Link href="/admin/activity/create" className="text-sm lg:text-lg">
                 Create Official Activities
                 </Link>
             </Button>
