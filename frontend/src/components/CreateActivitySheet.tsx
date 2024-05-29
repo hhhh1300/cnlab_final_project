@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useRef } from 'react';
+
 import useActivity from '@/hooks/useActivity';
 import {
   Card,
@@ -84,6 +85,7 @@ export default function CreateActivitySheet({
   const [isChecked, setIsChecked] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date())
   const { createActivity } = useActivity();
+
   const [activityData, setActivityData] = useState<CardData[]>([]);
   const ref = useRef(null);
   const ref1 = useRef(null);
@@ -114,6 +116,7 @@ export default function CreateActivitySheet({
                 ref3.current.jsDate]
     console.log(ref.current.jsDate)
     createActivity(data, isOfficial, date)
+
 
   }
 

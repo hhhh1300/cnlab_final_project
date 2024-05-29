@@ -1,4 +1,5 @@
 'use client';
+import Navbar from '@/app/admin/navbar';
 
 type Props = {
   children: React.ReactNode;
@@ -6,8 +7,9 @@ type Props = {
 
 export default function AdminLayout({ children }: Props) {
   return (
-    <main className="flex-row justify-center top-0 flex w-full min-h-full">
-      <div className="w-full">{children}</div>
+    <main className="flex-row justify-center top-0 w-full min-h-full">
+      <Navbar />
+      <div className="w-full pb-20 pt-28">{children}</div>
     </main>
   );
 }

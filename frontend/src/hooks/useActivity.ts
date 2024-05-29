@@ -10,6 +10,7 @@ export default function useActivity() {
     return data;
   };
 
+
   const createActivity = async (payload, isOfficial, dates) => {
       console.log(payload.topic)
       console.log(dates)
@@ -18,6 +19,7 @@ export default function useActivity() {
         payload,
         isOfficial,
         dates,
+
       },
     });
     return data;
