@@ -5,6 +5,8 @@ import { env } from '@/utils/env';
 import cors from 'cors';
 import { databaseConnection, pool, sessionStore } from '@/model/init';
 import routes from '@/routes';
+import passport from 'passport';
+import '@/config/passport.config';
 
 const app = express();
 
@@ -37,6 +39,11 @@ app.use(
     },
   })
 );
+// 初始化 Passport
+app.use(passport.initialize());
+// 如果要使用 login session 時需設定
+app.use(passport.session());
+// app.use(passport.authenticate('session'));
 app.use('/api', routes);
 
 app.listen(8080, () => {
