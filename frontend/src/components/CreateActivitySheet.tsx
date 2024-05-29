@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import useActivity from '@/hooks/useActivity';
 import {
   Card,
@@ -47,7 +47,7 @@ import { useForm } from "react-hook-form"
 import { FaLocationCrosshairs, FaTag } from 'react-icons/fa6';
 
 
-import {DateTimePicker} from '@/components/DateTimePicker';
+import { DateTimePicker } from '@/components/DateTimePicker';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -58,7 +58,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Calendar } from "@/components/ui/calendar"
 
 import type { ActivityData } from '@/lib/shared_types';
-
+//import {ActivityDataSchema} from '@/lib/shared_types';
 
 import { z } from "zod"
 
@@ -68,15 +68,14 @@ type CreateActivitySheetProps = {
 };
 
 const FormSchema = z.object({
-  topic: z.string().min(2, {message: "Topic must be at least 2 characters.",
+  title: z.string().min(2, {message: "Topic must be at least 2 characters.",
   }),
-  content:z.string().max(200, {message: "Content must be at most 200 characters.",
+  activity_content:z.string().max(200, {message: "Content must be at most 200 characters.",
   }),
-  type:z.string(),
-  maxpeople: z.string().max(3),
-  flowgain: z.string(),
-  maxflow: z.string(),
-  apply_flow_reason: z.string().optional()
+  activity_tag:z.string(),
+  member_capacity: z.string().max(3),
+  traffic_capacity: z.string(),
+  applying_reason: z.string().optional()
 })
 
 export default function CreateActivitySheet({
@@ -85,7 +84,12 @@ export default function CreateActivitySheet({
   const [isChecked, setIsChecked] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date())
   const { createActivity } = useActivity();
-  
+  const [activityData, setActivityData] = useState<CardData[]>([]);
+  const ref = useRef(null);
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
@@ -98,19 +102,18 @@ export default function CreateActivitySheet({
   const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-        topic: "",
-        content: "",
-        type: "",
-        maxpeople: "",
-        flowgain: "",
-        maxflow: "",
-        apply_flow_reason: "None",
+
       },
     })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data)
-    createActivity(data)
+    let date = [ref.current.jsDate, 
+                ref1.current.jsDate,
+                ref2.current.jsDate,
+                ref3.current.jsDate]
+    console.log(ref.current.jsDate)
+    createActivity(data, isOfficial, date)
 
   }
 
@@ -121,7 +124,7 @@ export default function CreateActivitySheet({
         <CardHeader className="bg-gray-50 p-6">
           <FormField
             control={form.control}
-            name="topic"
+            name="title"
             render={({ field }) => (
               <CardTitle className="text-2xl font-semibold text-gray-900">
                 <Input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10" placeholder="Activity Title" {...field}/>
@@ -148,7 +151,7 @@ export default function CreateActivitySheet({
               <span className="text-gray-600 items-center">內容</span>
               <FormField
                 control={form.control}
-                name="content"
+                name="activity_content"
                 render={({ field }) => (
                   <span className="ml-2 text-gray-900">
                     <Textarea {...field}/>
@@ -162,7 +165,7 @@ export default function CreateActivitySheet({
             <div>
               <FormField
                 control={form.control}
-                name="type"
+                name="activity_tag"
                 render={({ field }) => (
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <SelectTrigger className="w-[180px]">
@@ -186,9 +189,12 @@ export default function CreateActivitySheet({
               <span className="text-gray-900">
                 <FormField
                   control={form.control}
-                  name="regstart"
+                  name="event_start_timestamp"
                   render={({ field }) => (
-                    <DateTimePicker granularity="second" hourCycle={24} onChange={handleRegStart}/>
+                    <DateTimePicker 
+                      granularity="second" 
+                      ref={ref}
+                      />
                   )}
                 />
              
@@ -197,7 +203,7 @@ export default function CreateActivitySheet({
             </div>
               <span className="text-gray-600 items-center">報名結束時間</span>
              <span className="text-gray-900">
-                <DateTimePicker granularity="second" hourCycle={24}/>
+                <DateTimePicker granularity="second" hourCycle={24} ref={ref1}/>
               </span>
             </div>
           </div>
@@ -206,13 +212,13 @@ export default function CreateActivitySheet({
             <div>
               <span className="text-gray-600 items-center">活動開放時間</span>
               <span className="ml-3 text-gray-900">
-                <DateTimePicker granularity="second" hourCycle={24}/>
+                <DateTimePicker granularity="second" hourCycle={24} ref={ref2}/>
               </span>
             <div>
             </div>
               <span className="text-gray-600 items-center">活動結束時間</span>
               <span className="ml-3 text-gray-900">
-                <DateTimePicker granularity="second" hourCycle={24}/>
+                <DateTimePicker granularity="second" hourCycle={24} ref={ref3}/>
               </span>
             </div>
           </div>
@@ -222,44 +228,34 @@ export default function CreateActivitySheet({
               <span className="text-gray-600 items-center">人數上限</span>
               <FormField
                 control={form.control}
-                name="maxpeople"
+                name="member_capacity"
                 render={({ field }) => (
-                  <span className="ml-2 text-gray-900"><Input {...field}/></span>
+                  <span className="ml-2 text-gray-900">
+                    <Input type="number" {...field} onChange={event => field.onChange(event.target.value)}/>
+                  </span>
                 )}
               />
             </div>
           </div>
 
-          {isOfficial ? (
-            <div className="flex items-center space-x-3">
-              <FaWater className="w-5 h-5 text-gray-700" />
-              <div>
-                <span className="text-gray-600 items-center">每人可獲取流量</span>
-                <FormField
-                  control={form.control}
-                  name="flowgain"
-                  render={({ field }) => (
-                    <span className="ml-2 text-gray-900"><Input {...field}/></span>
-                  )}
-                />
-              </div>
+          <div className="flex items-center space-x-3">
+            <FaWater className="w-5 h-5 text-gray-700" />
+            <div>
+              <span className="text-gray-600 items-center">
+                {isOfficial ? (<span>每人可獲取流量</span>): (<span>流量上限</span>)}
+              </span>
+              <FormField
+                control={form.control}
+                name="traffic_capacity"
+                render={({ field }) => (
+                  <span className="ml-2 text-gray-900">
+                    <Input type="number" {...field} onChange={event => field.onChange(event.target.value)}/>
+                  </span>
+                )}
+              />
             </div>
-            )
-            :(
-              <div className="flex items-center space-x-3">
-                <FaWater className="w-5 h-5 text-gray-700" />
-                <div>
-                  <span className="text-gray-600 items-center">流量上限</span>
-                  <FormField
-                    control={form.control}
-                    name="maxflow"
-                    render={({ field }) => (
-                      <span className="ml-2 text-gray-900"><Input {...field}/></span>
-                    )}
-                  />
-                </div>
-              </div>
-          )}
+          </div>
+            
 
           {isOfficial ? (
               <div></div>
@@ -275,7 +271,7 @@ export default function CreateActivitySheet({
                       <Label htmlFor="reason">請輸入事由:</Label>
                       <FormField
                         control={form.control}
-                        name="apply_flow_reason"
+                        name="applying_reason"
                         render={({ field }) => (
                           <Textarea placeholder="Enter your reason here" {...field}/>
                         )}
