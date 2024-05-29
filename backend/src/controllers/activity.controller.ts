@@ -87,7 +87,7 @@ export const getActivityById = async (req: Request, res: Response) => {
 export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
 
-  const query = 'INSERT INTO activity_member (activity_id, member_id) VALUES (?, ?)';
+  const query = 'INSERT INTO activity_role (activity_id, member_id) VALUES (?, ?)';
   const values = [activity_id, member_id];
 
   pool.getConnection((err: any, connection: any) => {
@@ -174,6 +174,56 @@ export const createActivity = async (req: Request, res: Response) => {
           connection.release();
         }
       );
+    }
+  });
+};
+
+export const getActivityMember = async (req: Request, res: Response) => {
+  const { activity_id } = req.query;
+  const query = `
+    select m.name, m.member_id, ar.activity_role
+    from activity_role as ar
+    inner join member as m on ar.member_id = m.member_id
+    where ar.activity_id = ? and ar.activity_role = 'participant';
+    `;
+  const values = [activity_id];
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
+
+export const getActivityCapacity = async (req: Request, res: Response) => {
+  const { activity_id } = req.query;
+  const query = `
+    select count(*) as number_of_participant
+    from activity_role
+    where activity_id = ?;
+    `;
+  const values = [activity_id];
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows[0]);
+        connection.release();
+      });
     }
   });
 };

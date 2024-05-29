@@ -2,7 +2,7 @@ import instance from '@/lib/axios';
 
 export default function useActivity() {
   const getAllActivity = async (category: string | null) => {
-    const { data, status } = await instance.get('/activity', {
+    const { data } = await instance.get('/activity', {
       params: {
         category,
       },
@@ -11,7 +11,7 @@ export default function useActivity() {
   };
 
   const getActivityById = async (activity_id: string) => {
-    const { data, status } = await instance.get('/activity/id', {
+    const { data } = await instance.get('/activity/id', {
       params: {
         activity_id,
       },
@@ -20,8 +20,26 @@ export default function useActivity() {
   };
 
   const joinActivity = async (activity_id: string) => {
-    const { data, status } = await instance.post('/activity', {
+    const { data } = await instance.post('/activity', {
       activity_id,
+    });
+    return data;
+  };
+
+  const getActivityMember = async (activity_id: string) => {
+    const { data } = await instance.get('/activity/member', {
+      params: {
+        activity_id,
+      },
+    });
+    return data;
+  };
+
+  const getActivityCapacity = async (activity_id: string) => {
+    const { data } = await instance.get('/activity/capacity', {
+      params: {
+        activity_id,
+      },
     });
     return data;
   };
@@ -39,5 +57,12 @@ export default function useActivity() {
     return data;
   };
 
-  return { getAllActivity, getActivityById, joinActivity, createActivity };
+  return {
+    getAllActivity,
+    getActivityById,
+    joinActivity,
+    createActivity,
+    getActivityMember,
+    getActivityCapacity,
+  };
 }

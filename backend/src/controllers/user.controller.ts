@@ -62,3 +62,23 @@ export const isLogin = (req: Request, res: Response) => {
   // console.log(req);
   res.status(200).json(req.user);
 };
+
+export const getUserById = async (req: Request, res: Response) => {
+  const { member_id } = req.query;
+  const query = 'SELECT * FROM member WHERE member_id = ?';
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, [member_id], (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows[0]);
+        connection.release();
+      });
+    }
+  });
+};

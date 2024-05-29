@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button';
 
 import type { ActivityData } from '@/lib/shared_types';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import useUser from '@/hooks/useUser';
 
 function formatDateTime(isoString: Date | undefined): string {
   if (!isoString) return '';
@@ -39,6 +41,7 @@ type Activity = ActivityData;
 
 type ActivityCardProps = {
   activity: Activity | undefined;
+  member_capacity: number | undefined;
   status: () => string | undefined;
   handleClick: () => void;
   identity: string | undefined;
@@ -47,12 +50,21 @@ type ActivityCardProps = {
 
 export default function ActivityCard({
   activity,
+  member_capacity,
   status,
   handleClick,
   identity,
   isLoading,
 }: ActivityCardProps) {
-  console.log(activity);
+  const [hoster, setHoster] = useState<string>('');
+  const { getUserById } = useUser();
+  useEffect(() => {
+    if (activity) {
+      getUserById(activity.hoster_id).then((data) => {
+        setHoster(data.name);
+      });
+    }
+  }, [activity, getUserById]);
   const ButtonName = () => {
     if (identity === 'Host') return '刪除活動';
     if (identity === 'Participant') return '退出活動';
@@ -65,6 +77,7 @@ export default function ActivityCard({
     if (identity === '' && status() === '註冊中') return false;
     return true;
   };
+
   return (
     <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
       <CardHeader className="bg-gray-50 p-6">
@@ -133,7 +146,7 @@ export default function ActivityCard({
           <FaRegUser className="w-5 h-5 text-gray-700" />
           <div>
             <span className="text-gray-600">主持人:</span>
-            <span className="ml-2 text-gray-900">{activity?.hoster_name}</span>
+            <span className="ml-2 text-gray-900">{hoster ?? activity?.hoster_id}</span>
           </div>
         </div>
         <div className="border-t border-gray-200 pt-4">
@@ -155,7 +168,7 @@ export default function ActivityCard({
             <FaRegUser className="w-5 h-5 text-gray-700" />
             <div>
               <span className="text-gray-600">已報名人數:</span>
-              {/* <span className="ml-2 text-gray-900">{member_capacity ? member_capacity : 0}</span> */}
+              <span className="ml-2 text-gray-900">{member_capacity ? member_capacity : 0}</span>
             </div>
           </div>
           <div className="flex items-center space-x-3 mt-4">

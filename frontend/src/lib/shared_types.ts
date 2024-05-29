@@ -21,7 +21,7 @@ const ActivityDataSchema = z.object({
 });
 
 const MemberDataSchema = z.object({
-  message_id: z.string(),
+  member_id: z.string(),
   name: z.string(),
   password: z.string(),
   member_role: z.enum(['Admin', 'User']),

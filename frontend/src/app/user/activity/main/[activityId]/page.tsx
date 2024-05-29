@@ -8,15 +8,25 @@ import ParticipantCard from '@/components/ParticipantCard';
 // import useActivity from '@/hooks/useActivity';
 import type { ActivityData as CardData } from '@/lib/shared_types';
 import useActivity from '@/hooks/useActivity';
+import { useMember } from '@/hooks/useMember';
+import { set } from 'date-fns';
 
 type Identity = 'Host' | 'Participant' | '';
 
+type Participant = {
+  member_id: string;
+  name: string;
+  activity_role: string;
+};
+
 export default function Page({ params }: { params: { activityId: string } }) {
   const router = useRouter();
-  const { getActivityById } = useActivity();
-  // const { member } = useMember();
+  const { getActivityById, getActivityMember, getActivityCapacity, joinActivity } = useActivity();
+  const { member } = useMember();
 
   const [activityData, setActivityData] = useState<CardData>();
+  const [capacity, setCapacity] = useState<number>();
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [identity, setIdentity] = useState<Identity>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -40,32 +50,49 @@ export default function Page({ params }: { params: { activityId: string } }) {
     const fetchData = async () => {
       const data = await getActivityById(params.activityId);
       setActivityData(data[0]);
+      const people = await getActivityMember(params.activityId);
+      setParticipants(people);
+      const { number_of_participant } = await getActivityCapacity(params.activityId);
+      setCapacity(number_of_participant);
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.activityId]);
 
+  useEffect(() => {
+    if (member && activityData) {
+      if (member?.member_id === activityData?.hoster_id) {
+        setIdentity('Host');
+      } else if (participants.find((p) => p.member_id === member?.member_id)) {
+        setIdentity('Participant');
+      } else {
+        setIdentity('');
+      }
+      setIsLoading(false);
+    }
+  }, [participants, member, activityData]);
+
   const handleClick = async () => {
     setIsLoading(true);
-    // if (identity === 'Host' && activity) {
-    //   await deleteActivity(activity.activity_id);
-    //   if (member) toast.success('活動已刪除');
-    //   router.push('/');
-    // } else if (identity === 'Participant' && activity) {
-    //   await quitActivity(activity.activity_id);
-    //   const { number_of_participant } = await getActivityCapacity(params.activityId);
-    //   const people = await getActivityMember(params.activityId);
-    //   setCapacity(number_of_participant);
-    //   setParticipants(people);
-    //   if (member) toast.success('已退出活動');
-    // } else if (identity === '' && activity) {
-    //   await joinActivity(activity.activity_id);
-    //   const { number_of_participant } = await getActivityCapacity(params.activityId);
-    //   const people = await getActivityMember(params.activityId);
-    //   setCapacity(number_of_participant);
-    //   setParticipants(people);
-    //   if (member) toast.success('已報名活動');
-    // }
+    if (identity === 'Host' && activityData) {
+      // await deleteActivity(activityData.activity_id);
+      if (member) toast.success('活動已刪除');
+      router.push('/');
+    } else if (identity === 'Participant' && activityData) {
+      // await quitActivity(activityData.activity_id);
+      // const { number_of_participant } = await getActivityCapacity(params.activityId);
+      const people = await getActivityMember(params.activityId);
+      // setCapacity(number_of_participant);
+      setParticipants(people);
+      if (member) toast.success('已退出活動');
+    } else if (identity === '' && activityData) {
+      await joinActivity(activityData.activity_id);
+      const { number_of_participant } = await getActivityCapacity(params.activityId);
+      const people = await getActivityMember(params.activityId);
+      setCapacity(number_of_participant);
+      setParticipants(people);
+      if (member) toast.success('已報名活動');
+    }
     setIsLoading(false);
   };
 
@@ -73,6 +100,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
     <div className="flex flex-wrap justify-center">
       <ActivityCard
         activity={activityData}
+        member_capacity={capacity}
         status={status}
         handleClick={handleClick}
         identity={identity}
