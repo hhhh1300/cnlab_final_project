@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useMember } from '@/hooks/useMember';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function Navbar() {
   const router = useRouter();
@@ -60,14 +60,14 @@ export default function Navbar() {
           </Link>
         </Button>
         <div
-          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right ${
+          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 ${
             lastSegment === 'login' ? 'font-bold' : ''
           }`}
         >
           {!member && (
-            <Link href="/login" className="text-sm lg:text-lg">
-              Login
-            </Link>
+            <Button className="text-sm lg:text-lg">
+              <Link href="/login">Login</Link>
+            </Button>
           )}
           {member && (
             <Button className="text-sm lg:text-lg" onClick={handleLogout}>
