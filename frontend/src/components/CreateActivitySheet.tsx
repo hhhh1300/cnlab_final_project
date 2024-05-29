@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import useActivity from '@/hooks/useActivity';
 import {
   Card,
   CardContent,
@@ -83,13 +84,12 @@ export default function CreateActivitySheet({
 }:CreateActivitySheetProps) {
   const [isChecked, setIsChecked] = useState(false);
   const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const { createActivity } = useActivity();
   
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
   
-  function handleSubmit() {
-  }
 
   const handleRegStart = () => {
     
@@ -110,6 +110,7 @@ export default function CreateActivitySheet({
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data)
+    createActivity(data)
 
   }
 
@@ -183,7 +184,6 @@ export default function CreateActivitySheet({
             <div>
               <span className="text-gray-600 items-center">報名開放時間</span>
               <span className="text-gray-900">
-                {/*}
                 <FormField
                   control={form.control}
                   name="regstart"
@@ -191,7 +191,7 @@ export default function CreateActivitySheet({
                     <DateTimePicker granularity="second" hourCycle={24} onChange={handleRegStart}/>
                   )}
                 />
-              */}
+             
               </span>
             <div>
             </div>
@@ -287,10 +287,12 @@ export default function CreateActivitySheet({
             )}
 
         </CardContent>
+        <CardFooter>
+          <Button type="submit" aria-label="Close">
+            提交
+          </Button>
+        </CardFooter>
       </Card>
-      <Button type="submit" >
-          提交
-      </Button>
     </form>
   </Form>
 )}
