@@ -12,7 +12,7 @@ export default function Navbar() {
   let lastSegment = '';
   lastSegment = path.substring(path.lastIndexOf('/') + 1);
   const { member, logout, fetchMember } = useMember();
-
+  console.log(member);
   useEffect(() => {
     fetchMember();
   }, [fetchMember]);

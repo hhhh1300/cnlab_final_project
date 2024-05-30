@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ActivityCard from '@/components/ActivityCard';
+import ChatroomInput from '@/components/ChatroomInput';
+import ChatroomMessage from '@/components/ChatroomMessage';
 import ParticipantCard from '@/components/ParticipantCard';
 
 // import useActivity from '@/hooks/useActivity';
@@ -97,7 +99,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
   };
 
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-row justify-center">
       <ActivityCard
         activity={activityData}
         member_capacity={capacity}
@@ -106,6 +108,15 @@ export default function Page({ params }: { params: { activityId: string } }) {
         identity={identity}
         isLoading={isLoading}
       />
+      <div className=" m-auto mt-10 w-[33vw] h-full overflow-hidden flex flex-col shadow-lg">
+        <nav className="shadow-md p-3 text-md font-semibold">Chatroom</nav>
+        <div className="overflow-y-scroll grow">
+          <ChatroomMessage />
+        </div>
+        <div className="p-2">
+          <ChatroomInput activityId={params.activityId} />
+        </div>
+      </div>
       {/* {member?.member_id === activity?.member_id && member?.member_id != undefined && (
         <ParticipantCard
           participants={participants}

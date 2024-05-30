@@ -30,10 +30,11 @@ const MemberDataSchema = z.object({
 
 const MessageDataSchema = z.object({
   message_id: z.string(),
-  chatgroup_id: z.string(),
+  activity_id: z.string(),
   member_id: z.string(),
-  message_time: z.date(),
-  message_text: z.string(),
+  member_name: z.string(),
+  message_timestamp: z.date(),
+  message_content: z.string(),
 });
 
 export type ActivityData = z.infer<typeof ActivityDataSchema>;
