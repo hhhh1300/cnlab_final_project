@@ -1,35 +1,69 @@
+// frontend/src/app/admin/profile/page.tsx
+
 'use client';
 
+import { useState } from "react";
+import profilesData, { Profile } from "./data";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
-import { useState, useEffect } from 'react';
+const SearchProfile = () => {
+  const [searchId, setSearchId] = useState<string>("");
+  const [profile, setProfile] = useState<Profile | null>(null);
 
-import ProfileLayout from '@/app/admin/profile/layout';
+  const handleSearch = () => {
+    const foundProfile = profilesData.find(p => p.studentId === searchId);
+    setProfile(foundProfile || null);
+  };
 
-
-export default function Page() {
- 
-  const [Id, setUserId] = useState('');
-  useEffect(() => {
-      document.title = "Profile Page";
-      // get(`/api/user`, { userid: props.userId }).then((userObj) => setUser(userObj));
-  }, []);
   return (
-    <>
-      <div className='bg-white text-center text-black rounded-lg transition font-semibold flex flex-col justify-center h-[20vh]'> 
-        <h1>搜尋用戶</h1>
-        <input
-          type="text"
-          value={Id}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="輸入學號"
-        />
-        <Link href={`/admin/profile/${Id}`} className="text-sm lg:text-lg">
-          搜尋
-        </Link>
-      </div>
-    </>
-    
+    <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
+      <CardHeader className="bg-gray-50 p-6">
+        <CardTitle className="text-2xl font-semibold text-gray-900">
+          Search User Profile
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="bg-white p-6 space-y-6">
+        <div>
+          <span className="text-gray-600 items-center">Student ID</span>
+          <span className="ml-4 text-gray-900">
+            <Input
+              type="text"
+              placeholder="Enter Student ID"
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+            />
+          </span>
+          
+        </div>
+        {profile ? (
+          <div>
+            <h2>Profile Details</h2>
+            <p><strong>Name:</strong> {profile.name}</p>
+            <p><strong>Email:</strong> {profile.email}</p>
+            <p><strong>Major:</strong> {profile.major}</p>
+          </div>
+        ) : (
+          searchId && <p>No profile found for ID {searchId}</p>
+        )}
+      </CardContent>
+      <CardFooter>
+        <span className="ml-1 text-gray-900">
+          <Button onClick={handleSearch}>Search</Button>
+        </span>
+      </CardFooter>
+    </Card>
   );
 }
+
+export default SearchProfile;
+

@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import CreateActivitySheet from '@/components/CreateActivitySheet';
 import InputForm from '@/components/InputForm';
 
-
 // import useActivity from '@/hooks/useActivity';
 import type { ActivityData } from '@/lib/shared_types';
 
@@ -16,9 +15,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
   const router = useRouter();
   return (
     <div className="flex flex-wrap justify-center">
-        <CreateActivitySheet
-          isOfficial={isOfficial}
-        />
+      <CreateActivitySheet isOfficial={isOfficial} />
     </div>
   );
 }

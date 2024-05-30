@@ -12,7 +12,5 @@ export default function Page() {
     window.location.href = '/user/profile';
   }, []);
 
-  return (
-    <></>
-  );
+  return <></>;
 }
