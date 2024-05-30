@@ -6,7 +6,17 @@ import cors from 'cors';
 import { databaseConnection, pool, sessionStore } from '@/model/init';
 import routes from '@/routes';
 import passport from 'passport';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import '@/config/passport.config';
+
+type Message = {
+  message_id: string;
+  activity_id: string;
+  member_id: string;
+  message_content: string;
+  message_timestamp: Date;
+};
 
 const app = express();
 
@@ -17,6 +27,37 @@ app.use(
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
 );
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
+
+io.on('connection', (socket) => {
+  // New user has connected
+  // console.log('A user connected');
+  // socket.on('join', (room) => {
+  //   socket.join(room);
+  //   socket.emit('joined', room, socket.id);
+  //   console.log('A user joined room: ' + room);
+  // });
+  // // User has disconnected
+  // socket.on('leave', (room) => {
+  //   console.log('A user disconnected');
+  //   socket.leave(room);
+  //   socket.emit('leave', room, socket.id);
+  // });
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+  // User has sent a message
+  socket.on('send_message', (newMessage: Message) => {
+    console.log('send message');
+    io.emit('receive_message', newMessage);
+  });
+});
+
 app.set('trust proxy', 1);
 
 app.use(compression());
@@ -46,7 +87,11 @@ app.use(passport.session());
 // app.use(passport.authenticate('session'));
 app.use('/api', routes);
 
-app.listen(8080, () => {
+// app.listen(8080, () => {
+//   databaseConnection();
+//   console.log('Server started on http://localhost:8080');
+// });
+server.listen(8080, () => {
   databaseConnection();
-  console.log('Server started on http://localhost:3000');
+  console.log('server is running on http://localhost:8080');
 });
