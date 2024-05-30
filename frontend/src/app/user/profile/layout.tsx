@@ -2,12 +2,12 @@
 
 import Navbar from '@/app/user/profile/navbar';
 import { useState, useEffect } from 'react';
-import useMember  from '@/hooks/useMember';
+import useUser  from '@/hooks/useMember';
 
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const [name, setName] = useState();
-  const { getName } = useMember();
+  const { getName } = useUser();
   const member_id  = 100;
   useEffect(() => {
     const fetchData = async () => {

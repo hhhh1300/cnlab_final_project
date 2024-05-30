@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import ProfileLayout from '@/app/user/profile/layout';
-import useMember  from '@/hooks/useMember';
+import useUser  from '@/hooks/useMember';
 
 type Props = {
   member_id: number;
@@ -15,7 +15,7 @@ type Props = {
 
 export default function Page({props} : any) {
   const [traffic, setTraffic] = useState();
-  const { getName, getTraffic } = useMember();
+  const { getName, getTraffic } = useUser();
   const member_id = 100;
 
   useEffect(() => {

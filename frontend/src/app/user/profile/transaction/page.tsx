@@ -3,13 +3,13 @@
 import { Button } from '@/components/ui/button';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import useTransaction  from '@/hooks/useTransaction';
-import useMember from '@/hooks/useMember';
+import useUser from '@/hooks/useMember';
 
 
 export default function Transaction(){
     const [success, setSuccess] = useState(false);
     const { postTransaction } = useTransaction();
-    const { getTraffic } = useMember();
+    const { getTraffic } = useUser();
     const member_id = 100;
 
 
