@@ -10,5 +10,14 @@ export default function useActivity() {
     return data;
   };
 
+  const getActivityFromMemberID = async (memberID: string) => {
+    const { data, status } = await instance.get(`/activity/memberID`, {
+      params: {
+        memberID,
+      },
+    });
+    return data;
+  }
+
   return { getAllActivity };
 }

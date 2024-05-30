@@ -59,3 +59,32 @@ export const getActivityAll = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getActivityFromMemberID = async (req: Request, res: Response) => {
+  console.log('getActivityFromMemberID');
+  const member_id = req.query.member_id;
+
+  const timestamp = nowDate();
+  const query = `
+    SELECT *
+    FROM member_join_activity
+    Inner join activity
+    On activity_id = activity.activity_id
+    where member_id = ?
+    `;
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, member_id, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
