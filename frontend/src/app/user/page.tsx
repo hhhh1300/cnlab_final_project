@@ -10,7 +10,7 @@ export default function Page() {
   const path = usePathname();
 
   useEffect(() => {
-    window.location.href = '/user/profile';
+    window.location.href = '/user/activity';
   }, []);
 
   return <></>;

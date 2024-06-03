@@ -45,7 +45,7 @@ export default function AuthForm() {
         .then((res) => {
           if (res.status === 200) {
             toast.success('登入成功');
-            router.push('/');
+            router.push('/user/activity');
           }
           fetchMember();
         })
