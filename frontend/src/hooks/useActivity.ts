@@ -54,14 +54,15 @@ export default function useActivity() {
     return data;
   };
 
-  const createActivity = async (payload, isOfficial, dates) => {
+  const createActivity = async (payload, isOfficial, dates, id) => {
     console.log(payload.topic);
     console.log(dates);
-    const { data, status } = await instance.post('/activity', {
+    const { data, status } = await instance.post('/create/activity', {
       params: {
         payload,
         isOfficial,
         dates,
+        id,
       },
     });
     return data;

@@ -1,57 +1,103 @@
-// frontend/src/app/admin/audit_activity/page.tsx
 'use client';
 
-import { useState } from "react";
-import eventsData, { Event } from "./data";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-// import useActivity from '@/hooks/useActivity';
-import type { ActivityData } from '@/lib/shared_types';
+
+interface Activity {
+  activity_id: string;
+  hoster_id: string;
+  title: string;
+  activity_content: string;
+  applying_reason: string;
+  event_start_timestamp: string;
+  event_end_timestamp: string;
+  register_start_timestamp: string;
+  register_end_timestamp: string;
+  location: string;
+  status: "passed" | "cancelled" | "reviewing";
+  traffic_capacity: number;
+  member_capacity: number;
+  activity_tag: string;
+  activity_type: "non-official" | "official";
+}
 
 const AuditActivity = () => {
-  const [events, setEvents] = useState<Event[]>(eventsData);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleApprove = (id: number) => {
-    setEvents(events.map(event => event.id === id ? { ...event, status: 'approved' } : event));
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const response = await axios.get<Activity[]>('http://localhost:8080/api/activity/status');
+        setActivities(response.data);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchActivities();
+  }, []);
+
+  const handleApprove = async (id: string) => {
+    try {
+      await axios.patch(`http://localhost:8080/api/activity/${id}/status`, { status: 'passed' });
+      setActivities(activities.map(activity => activity.activity_id === id ? { ...activity, status: 'passed' } : activity));
+      window.location.reload();
+    } catch (error: any) {
+      console.error('Error updating status:', error.message);
+    }
   };
 
-  const handleReject = (id: number) => {
-    setEvents(events.map(event => event.id === id ? { ...event, status: 'rejected' } : event));
+  const handleReject = async (id: string) => {
+    try {
+      await axios.patch(`http://localhost:8080/api/activity/${id}/status`, { status: 'cancelled' });
+      setActivities(activities.map(activity => activity.activity_id === id ? { ...activity, status: 'cancelled' } : activity));
+      window.location.reload();
+    } catch (error: any) {
+      console.error('Error updating status:', error.message);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
       <ul>
-        {events.map((event) => (
-          <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
+        {activities.map((activity) => (
+          <Card key={activity.activity_id} className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
             <CardHeader className="bg-gray-50 p-6">
               <CardTitle className="text-2xl font-semibold text-gray-900">
-                {event.content}
+                {activity.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="bg-white p-6 space-y-6">
-            <p><strong>Organizer:</strong> {event.organizer}</p>
-            <p><strong>Time:</strong> {event.time}</p>
-            <p><strong>Content:</strong> {event.content}</p>
-            <p><strong>Status:</strong> {event.status}</p>
+              <p><strong>Organizer ID:</strong> {activity.hoster_id}</p>
+              <p><strong>Start Time:</strong> {activity.event_start_timestamp}</p>
+              <p><strong>End Time:</strong> {activity.event_end_timestamp}</p>
+              <p><strong>Content:</strong> {activity.activity_content}</p>
+              <p><strong>Status:</strong> {activity.status}</p>
             </CardContent>
             <CardFooter>
-            {event.status === "pending" && (
-              <div>
-                <Button onClick={() => handleApprove(event.id)}>Approve</Button>
-                <Button onClick={() => handleReject(event.id)} style={{ marginLeft: "10px" }}>Reject</Button>
-              </div>
-            )}
+              {activity.status === "reviewing" && (
+                <div>
+                  <Button onClick={() => handleApprove(activity.activity_id)}>Approve</Button>
+                  <Button onClick={() => handleReject(activity.activity_id)} style={{ marginLeft: "10px" }}>Reject</Button>
+                </div>
+              )}
             </CardFooter>
-          
           </Card>
         ))}
       </ul>
@@ -60,4 +106,3 @@ const AuditActivity = () => {
 }
 
 export default AuditActivity;
-
