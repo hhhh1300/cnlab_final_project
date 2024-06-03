@@ -199,6 +199,7 @@ export default function CreateActivitySheet({
                     <SelectItem value="Sport">運動</SelectItem>
                     <SelectItem value="PhoneGames">手遊</SelectItem>
                     <SelectItem value="readings">讀書會</SelectItem>
+                    <SelectItem value="others">其他</SelectItem>
                   </SelectContent>
                 </Select>
                 )}

@@ -41,6 +41,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
     const registrationEnd = new Date(activityData.register_end_timestamp);
 
     if (activityData?.status === 'cancelled') return '已刪除';
+    if (activityData?.status === 'reviewing') return '審核中';
     if (now < registrationStart) return '即將開始註冊';
     if (now > registrationStart && now < registrationEnd) return '註冊中';
     if (now > registrationEnd && now < eventStart) return '即將開始活動';
@@ -80,7 +81,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
     if (identity === 'Host' && activityData) {
       await deleteActivity(activityData.activity_id);
       if (member) toast.success('活動已刪除');
-      router.push('/');
+      router.push('/user');
     } else if (identity === 'Participant' && activityData) {
       if (!member) {
         toast.error('請先登入');

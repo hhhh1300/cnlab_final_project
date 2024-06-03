@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 
 import { FaRegClock, FaRegCalendar, FaRegUser } from 'react-icons/fa';
-import { FaLocationCrosshairs, FaTag } from 'react-icons/fa6';
+import { FaLocationCrosshairs, FaTag, FaWater, FaRegHandPeace } from 'react-icons/fa6';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -101,9 +101,15 @@ export default function ActivityCard({
           >
             {status ? status() : ''}
           </Badge>
+
+          
           {/* {member_capacity && member_capacity === 0 && (
             <Badge className="ml-2 text-gray-100 bg-red-500">已額滿</Badge>
           )} */}
+        </div>
+        <div className="flex items-center space-x-3">
+          <FaRegHandPeace className="w-5 h-5 text-gray-700" />
+          {activity?.isOfficial ? <span className="text-gray-600">官方活動</span>:<span className="text-gray-600">一般活動</span>}
         </div>
         <div className="border-t border-gray-200 pt-4">
           <div className="flex items-center space-x-3">
@@ -175,10 +181,17 @@ export default function ActivityCard({
             </div>
           </div>
           <div className="flex items-center space-x-3 mt-4">
-            <FaRegUser className="w-5 h-5 text-gray-700" />
+            <FaWater className="w-5 h-5 text-gray-700" />
             <div>
               <span className="text-gray-600">流量上限:</span>
               <span className="ml-2 text-gray-900">{activity?.traffic_capacity}</span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3 mt-4">
+            <FaRegUser className="w-5 h-5 text-gray-700" />
+            <div>
+              <span className="text-gray-600">審核狀態</span>
+              <span className="ml-2 text-gray-900">{activity?.status}</span>
             </div>
           </div>
         </div>
