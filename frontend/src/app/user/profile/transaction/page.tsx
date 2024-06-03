@@ -3,14 +3,24 @@
 import { Button } from '@/components/ui/button';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import useTransaction  from '@/hooks/useTransaction';
+<<<<<<< HEAD
 import useUser from '@/hooks/useMember';
+=======
+import { useUser, useMember } from '@/hooks/useMember';
+>>>>>>> 598198d5747014af043bac9822c12562d74a416a
 
 
 export default function Transaction(){
     const [success, setSuccess] = useState(false);
     const { postTransaction } = useTransaction();
+<<<<<<< HEAD
     const { getTraffic } = useUser();
     const member_id = 100;
+=======
+    const { member } = useMember();
+    const { getTraffic } = useUser();
+    const member_id = member?.member_id;
+>>>>>>> 598198d5747014af043bac9822c12562d74a416a
 
 
     useEffect(() => {
@@ -18,9 +28,16 @@ export default function Transaction(){
     }
     , [member_id]);
 
+<<<<<<< HEAD
     const fetchData = async (member_id : number, name : string, traffic : number) => {
         const trafficData = await getTraffic(member_id);
         if(trafficData[0].traffic < traffic){
+=======
+    const fetchData = async (member_id : string | undefined, name : string, traffic : number) => {
+        const trafficData = await getTraffic(member_id);
+        if(trafficData[0].traffic < traffic){
+            console.log(trafficData[0].traffic, traffic)
+>>>>>>> 598198d5747014af043bac9822c12562d74a416a
             setSuccess(false);
             return;
         }

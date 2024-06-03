@@ -1,7 +1,8 @@
 'use client';
-import React, { useState, useRef } from 'react';
-
+import React, { useState, useRef, useEffect } from 'react';
+import { useMember } from '@/hooks/useMember';
 import useActivity from '@/hooks/useActivity';
+
 import {
   Card,
   CardContent,
@@ -41,6 +42,16 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
@@ -74,6 +85,7 @@ const FormSchema = z.object({
   activity_content:z.string().max(200, {message: "Content must be at most 200 characters.",
   }),
   activity_tag:z.string(),
+  activity_location:z.string(),
   member_capacity: z.string().max(3),
   traffic_capacity: z.string(),
   applying_reason: z.string().optional()
@@ -96,7 +108,13 @@ export default function CreateActivitySheet({
     setIsChecked(!isChecked);
   };
   
-
+  const { member, logout, fetchMember } = useMember();                                                         
+  
+  console.log(member);                                                                                         
+  useEffect(() => {                                                                                            
+    fetchMember();                                                                                             
+  }, [fetchMember]);
+  
   const handleRegStart = () => {
     
   };
@@ -104,7 +122,7 @@ export default function CreateActivitySheet({
   const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-
+        applying_reason:"None"
       },
     })
 
@@ -115,7 +133,7 @@ export default function CreateActivitySheet({
                 ref2.current.jsDate,
                 ref3.current.jsDate]
     console.log(ref.current.jsDate)
-    createActivity(data, isOfficial, date)
+    console.log(createActivity(data, isOfficial, date, member.member_id))
 
 
   }
@@ -223,6 +241,21 @@ export default function CreateActivitySheet({
               <span className="ml-3 text-gray-900">
                 <DateTimePicker granularity="second" hourCycle={24} ref={ref3}/>
               </span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <FaLocationCrosshairs className="w-5 h-5 text-gray-700" />
+            <div>
+              <span className="text-gray-600 items-center">地點</span>
+              <FormField
+                control={form.control}
+                name="activity_location"
+                render={({ field }) => (
+                  <span className="ml-2 text-gray-900">
+                    <Input  {...field} />
+                  </span>
+                )}
+              />
             </div>
           </div>
           <div className="flex items-center space-x-3">

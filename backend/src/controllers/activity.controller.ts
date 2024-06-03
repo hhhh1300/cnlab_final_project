@@ -197,6 +197,7 @@ export const createActivity = async (req: Request, res: Response) => {
   console.log('createActivity');
   const payload = req.body.params.payload;
   const dates = req.body.params.dates;
+  const id = req.body.params.id
   console.log(dates);
   const dates_new = [
     new Date(dates[0]),
@@ -235,8 +236,8 @@ export const createActivity = async (req: Request, res: Response) => {
       connection.query(
         query,
         [
-          100,
-          100,
+          uuidv4(),
+          id,
           payload.activity_content,
           payload.title,
           payload.applying_reason,
@@ -244,7 +245,7 @@ export const createActivity = async (req: Request, res: Response) => {
           dates_new[1],
           dates_new[2],
           dates_new[3],
-          'England',
+          payload.activity_location,
           'reviewing',
           payload.traffic_capacity,
           payload.member_capacity,
