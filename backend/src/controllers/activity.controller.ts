@@ -84,6 +84,29 @@ export const getActivityById = async (req: Request, res: Response) => {
   });
 };
 
+export const getActivityByStatus = async (req: Request, res: Response) => {
+  const { activity_id } = req.query;
+
+  const query = "SELECT * FROM ACTIVITY WHERE status = 'reviewing'";
+  const values = [activity_id];
+
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
+
 export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
 
@@ -226,4 +249,24 @@ export const getActivityCapacity = async (req: Request, res: Response) => {
       });
     }
   });
+};
+
+export const changeActivityStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!['passed', 'cancelled'].includes(status)) {
+    return res.status(400).json({ error: 'Invalid status' });
+  }
+
+  try {
+    const [result] = await pool.query("UPDATE ACTIVITY SET status = ? WHERE activity_id = ?", [status, id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Activity not found' });
+    }
+    res.status(200).json({ message: 'Activity status updated successfully' });
+  } catch (error) {
+    const errorMessage = (error instanceof Error) ? error.message : 'Unknown error';
+    res.status(500).json({ error: errorMessage });
+  }
 };
