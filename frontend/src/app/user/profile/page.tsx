@@ -6,20 +6,31 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 import ProfileLayout from '@/app/user/profile/layout';
-import Traffic from './traffic';
+import { useUser, useMember }  from '@/hooks/useMember';
 
 
 export default function Page() {
-  const [user, setUser] = useState();
+  const [traffic, setTraffic] = useState();
+  const { getTraffic } = useUser();
+  const { member } = useMember();
+  const member_id = member?.member_id;
 
   useEffect(() => {
-      document.title = "Profile Page";
-      // get(`/api/user`, { userid: props.userId }).then((userObj) => setUser(userObj));
-  }, []);
+    const fetchData = async () => {
+      const data = await getTraffic(member_id);
+      // console.log(data[0].traffic);
+      if(typeof data[0] !== "undefined"){
+        setTraffic(data[0].traffic);
+      }
+    };
+    fetchData();
+    setInterval(() => fetchData(), 60000);
+  }, [member, member_id]);
+
   return (
     <>
       <div className='bg-white text-center text-black rounded-lg transition font-semibold flex flex-col justify-center h-[20vh]'> 
-        Remain traffic: {30} 
+        Remain traffic: {traffic} 
       </div>
     </>
     

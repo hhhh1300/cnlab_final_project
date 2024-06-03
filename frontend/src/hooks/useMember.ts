@@ -3,6 +3,29 @@ import { create } from 'zustand';
 
 import { MemberData } from '@/lib/shared_types';
 import axios from '@/lib/axios';
+import instance from '@/lib/axios';
+
+export function useUser() {
+
+  const getName = async (member_id: string | undefined) => {
+    const { data, status } = await instance.get('/user', {
+      params: {
+        member_id,
+      },
+    });
+    return data;
+  };
+  const getTraffic = async (member_id: string | undefined) => {
+    const { data, status } = await instance.get('/user/traffic', {
+      params: {
+        member_id,
+      },
+    });
+    return data;
+  };
+
+  return { getName, getTraffic };
+}
 
 interface state {
   member: MemberData | null;
