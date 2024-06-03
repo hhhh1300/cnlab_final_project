@@ -29,9 +29,10 @@ export default function useActivity() {
     return data;
   };
 
-  const joinActivity = async (activity_id: string) => {
+  const joinActivity = async (activity_id: string, member_id: string) => {
     const { data } = await instance.post('/activity', {
       activity_id,
+      member_id,
     });
     return data;
   };
@@ -57,7 +58,7 @@ export default function useActivity() {
   const createActivity = async (payload, isOfficial, dates, id) => {
     console.log(payload.topic);
     console.log(dates);
-    const { data, status } = await instance.post('/create/activity', {
+    const { data, status } = await instance.post('/activity/create', {
       params: {
         payload,
         isOfficial,

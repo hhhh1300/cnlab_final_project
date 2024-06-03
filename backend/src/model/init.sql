@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS MESSAGE (
 CREATE TABLE IF NOT EXISTS ACTIVITY_ROLE (
     activity_id VARCHAR(100),
     member_id VARCHAR(100),
-    activity_role CHAR(15) NOT NULL CHECK (activity_role IN ('hoster', 'participant')),
+    activity_role CHAR(15) NOT NULL CHECK (activity_role IN ('hoster', 'participant')) DEFAULT 'participant',
     PRIMARY KEY (activity_id, member_id),
     FOREIGN KEY (activity_id) REFERENCES ACTIVITY(activity_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (member_id) REFERENCES MEMBER(member_id) ON DELETE CASCADE ON UPDATE CASCADE
