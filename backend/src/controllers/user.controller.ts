@@ -18,7 +18,7 @@ export const getUserName = async (req: Request, res: Response) => {
         console.error(err);
         res.status(400).json(err);
       } else {
-        connection.query(query,member_id, (err: any, rows: any) => {
+        connection.query(query, [member_id], (err: any, rows: any) => {
           if (err) {
             console.error(err);
             res.status(400).json(err);
@@ -44,7 +44,7 @@ export const getUserTraffic = async (req: Request, res: Response) => {
         console.error(err);
         res.status(400).json(err);
       } else {
-        connection.query(query,member_id, (err: any, rows: any) => {
+        connection.query(query, [member_id], (err: any, rows: any) => {
           if (err) {
             console.error(err);
             res.status(400).json(err);
@@ -111,7 +111,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const isLogin = (req: Request, res: Response) => {
-  // console.log(req);
+  console.log(req.user);
   res.status(200).json(req.user);
 };
 

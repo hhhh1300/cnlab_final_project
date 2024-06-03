@@ -1,6 +1,6 @@
 import {
   getActivityAll,
-  getActivityFromMemberID,
+  getUserActivity,
   getActivityById,
   joinActivity,
   createActivity,
@@ -16,7 +16,7 @@ router.post('/', createActivity);
 router.post('/', joinActivity);
 
 router.get('/', getActivityAll);
-router.get('/memberID', getActivityFromMemberID);
+router.get('/memberID', getUserActivity);
 router.get('/id', getActivityById);
 router.get('/member', getActivityMember);
 router.get('/capacity', getActivityCapacity);

@@ -5,14 +5,9 @@ import { MemberData } from '@/lib/shared_types';
 import axios from '@/lib/axios';
 import instance from '@/lib/axios';
 
-export default function useUser() {
-  // const getAllMemberByActivity = async () => {
-  //   const response = await fetch('/api/member');
-  //   const data = await response.json();
-  //   return data;
-  // };
-  // return { getAllMemberByActivity };
-  const getName = async (member_id: number | null) => {
+export function useUser() {
+
+  const getName = async (member_id: string | undefined) => {
     const { data, status } = await instance.get('/user', {
       params: {
         member_id,
@@ -20,7 +15,7 @@ export default function useUser() {
     });
     return data;
   };
-  const getTraffic = async (member_id: number | null) => {
+  const getTraffic = async (member_id: string | undefined) => {
     const { data, status } = await instance.get('/user/traffic', {
       params: {
         member_id,
