@@ -23,8 +23,16 @@ export function useUser() {
     });
     return data;
   };
+  const checkUser = async (name: string | undefined) => {
+    const { data, status } = await instance.get('/user/checkuser', {
+      params: {
+        name,
+      },
+    });
+    return data;
+  };
 
-  return { getName, getTraffic };
+  return { getName, getTraffic, checkUser };
 }
 
 interface state {

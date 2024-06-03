@@ -229,6 +229,7 @@ export const createActivity = async (req: Request, res: Response) => {
       `;
   const activity_type = req.body.params.isOfficial ? 'official' : 'non-official';
   const activity_id = uuidv4();
+  let result:any;
   pool.getConnection((err: any, connection: any) => {
     if (err) {
       console.error(err);
@@ -258,13 +259,10 @@ export const createActivity = async (req: Request, res: Response) => {
             console.error(err);
             res.status(400).json(err);
           }
-          res.status(200).json(rows);
+          result = rows;
+          // res.status(200).json(rows);
           connection.release();
-        }
-      );
-    }
-  });
-  const query_2 = 'INSERT INTO activity_role (activity_id, member_id) VALUES (?, ?)';
+          const query_2 = 'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
   pool.getConnection((err: any, connection: any) => {
     if (err) {
       console.error(err);
@@ -275,6 +273,7 @@ export const createActivity = async (req: Request, res: Response) => {
         [
           activity_id,
           id,
+          'hoster',
         ],
         (err: any, rows: any) => {
           if (err) {
@@ -287,6 +286,15 @@ export const createActivity = async (req: Request, res: Response) => {
       );
     }
   });
+        }
+
+      );
+    }
+    console.log(result)
+    
+  });
+
+  
 };
 
 export const getActivityMember = async (req: Request, res: Response) => {

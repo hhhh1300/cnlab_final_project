@@ -183,7 +183,7 @@ export default function ActivityCard({
           <FaTag className="w-5 h-5 text-gray-700" />
           <div>
             <span className="text-gray-600">分類:</span>
-            {/* <span className="ml-2 text-gray-900"> {getLabelByType(activity?.activity_tag)}</span> */}
+             <span className="ml-2 text-gray-900"> {(activity?.activity_tag)}</span> 
           </div>
         </div>
         <div className="border-t border-gray-200 pt-4">

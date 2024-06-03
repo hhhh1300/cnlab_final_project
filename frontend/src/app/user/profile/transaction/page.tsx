@@ -3,13 +3,14 @@
 import { Button } from '@/components/ui/button';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import useTransaction  from '@/hooks/useTransaction';
+import toast from 'react-hot-toast';
 import { useUser, useMember } from '@/hooks/useMember';
 
 export default function Transaction(){
     const [success, setSuccess] = useState(false);
     const { postTransaction } = useTransaction();
     const { member } = useMember();
-    const { getTraffic } = useUser();
+    const { getTraffic, checkUser } = useUser();
     const member_id = member?.member_id;
 
     useEffect(() => {
@@ -22,11 +23,22 @@ export default function Transaction(){
         if(trafficData[0].traffic < traffic){
             console.log(trafficData[0].traffic, traffic)
             setSuccess(false);
+            toast.error('fail')
+            return;
+        }
+        const is_name_exist = await checkUser(name);
+        console.log(is_name_exist)
+        if (is_name_exist.length === 0){
+            toast.error('fail');
             return;
         }
         const data = await postTransaction(member_id, name, traffic);
         console.log(data.success);
         setSuccess(data.success);
+        if (success)
+            toast.success('成功轉移');
+        else
+            toast.error('fail')
     };
 
 
@@ -51,9 +63,6 @@ export default function Transaction(){
                 <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg  font-semibold">
                     Submit
                 </Button>
-                <div className="text-red-500">
-                    {success ? '' : 'Failed'}
-                </div>
             </form>
         </div>
     );
