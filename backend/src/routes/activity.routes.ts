@@ -13,7 +13,7 @@ import { isAuth } from '@/utils/isAuth';
 
 const router = express.Router();
 
-router.post('/', createActivity);
+router.post('/create', createActivity);
 router.post('/', joinActivity);
 
 router.get('/', getActivityAll);
