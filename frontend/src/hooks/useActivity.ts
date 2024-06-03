@@ -29,9 +29,10 @@ export default function useActivity() {
     return data;
   };
 
-  const joinActivity = async (activity_id: string) => {
+  const joinActivity = async (activity_id: string, member_id: string) => {
     const { data } = await instance.post('/activity', {
       activity_id,
+      member_id,
     });
     return data;
   };

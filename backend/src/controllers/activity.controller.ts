@@ -173,8 +173,8 @@ export const getActivityByStatus = async (req: Request, res: Response) => {
 export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
 
-  const query = 'INSERT INTO activity_role (activity_id, member_id) VALUES (?, ?)';
-  const values = [activity_id, member_id];
+  const query = 'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
+  const values = [activity_id, member_id, 'participant'];
 
   pool.getConnection((err: any, connection: any) => {
     if (err) {
