@@ -3,14 +3,15 @@
 import { Button } from '@/components/ui/button';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import useTransaction  from '@/hooks/useTransaction';
-import useUser from '@/hooks/useMember';
+import { useUser, useMember } from '@/hooks/useMember';
 
 
 export default function Transaction(){
     const [success, setSuccess] = useState(false);
     const { postTransaction } = useTransaction();
+    const { member } = useMember();
     const { getTraffic } = useUser();
-    const member_id = 100;
+    const member_id = member?.member_id;
 
 
     useEffect(() => {
@@ -18,9 +19,10 @@ export default function Transaction(){
     }
     , [member_id]);
 
-    const fetchData = async (member_id : number, name : string, traffic : number) => {
+    const fetchData = async (member_id : string | undefined, name : string, traffic : number) => {
         const trafficData = await getTraffic(member_id);
         if(trafficData[0].traffic < traffic){
+            console.log(trafficData[0].traffic, traffic)
             setSuccess(false);
             return;
         }
