@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useMember } from '@/hooks/useMember';
 import useActivity from '@/hooks/useActivity';
 
@@ -126,15 +127,16 @@ export default function CreateActivitySheet({
       },
     })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data)
     let date = [ref.current.jsDate, 
                 ref1.current.jsDate,
                 ref2.current.jsDate,
                 ref3.current.jsDate]
     console.log(ref.current.jsDate)
+    // const result = await createActivity(data, isOfficial, date, member.member_id)
     console.log(createActivity(data, isOfficial, date, member.member_id))
-
+    toast.success('已創建活動');
 
   }
 

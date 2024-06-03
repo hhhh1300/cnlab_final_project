@@ -56,6 +56,29 @@ export const getUserTraffic = async (req: Request, res: Response) => {
     });
 };
   
+export const getTrafficByName = async (req: Request, res: Response) => {
+    console.log('getUserTraffic');
+    const name = req.query.name;
+  
+    const query = `
+        SELECT traffic FROM Member WHERE name = ?
+        `;
+    pool.getConnection((err: any, connection: any) => {
+      if (err) {
+        console.error(err);
+        res.status(400).json(err);
+      } else {
+        connection.query(query, [name], (err: any, rows: any) => {
+          if (err) {
+            console.error(err);
+            res.status(400).json(err);
+          }
+          res.status(200).json(rows);
+          connection.release();
+        });
+      }
+    });
+};
 
 export const register = async (req: Request, res: Response) => {
   console.log(req.body);

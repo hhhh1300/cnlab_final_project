@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS MEMBER (
     member_id VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(256) NOT NULL,
     member_role VARCHAR(11) NOT NULL CHECK (member_role IN ('Admin', 'User')) DEFAULT 'User',
     traffic INT NOT NULL DEFAULT 0,
