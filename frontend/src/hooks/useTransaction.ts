@@ -2,7 +2,7 @@ import instance from '@/lib/axios';
 
 export default function useTransaction() {
   
-  const postTransaction = async (member_id: number | null, name: string | null, traffic: number) => {
+  const postTransaction = async (member_id: string | undefined, name: string | null, traffic: number) => {
     console.log('postTransaction');
     const { data, status } = await instance.post('/transaction', {
       params: {
