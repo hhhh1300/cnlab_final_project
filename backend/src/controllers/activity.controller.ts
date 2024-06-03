@@ -172,9 +172,56 @@ export const getActivityByStatus = async (req: Request, res: Response) => {
 
 export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
+  console.log('joinActivity', activity_id, member_id);
 
   const query = 'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
   const values = [activity_id, member_id, 'participant'];
+
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
+
+export const quitActivity = async (req: Request, res: Response) => {
+  const { activity_id, member_id } = req.query;
+  console.log('quitActivity', activity_id, member_id);
+  const query = 'DELETE FROM activity_role WHERE activity_id = ? AND member_id = ?';
+  const values = [activity_id, member_id];
+
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
+
+export const deleteActivity = async (req: Request, res: Response) => {
+  const { activity_id } = req.query;
+
+  const query = 'DELETE FROM activity WHERE activity_id = ?';
+  const values = [activity_id];
 
   pool.getConnection((err: any, connection: any) => {
     if (err) {

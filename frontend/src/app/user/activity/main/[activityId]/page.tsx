@@ -23,7 +23,7 @@ type Participant = {
 
 export default function Page({ params }: { params: { activityId: string } }) {
   const router = useRouter();
-  const { getActivityById, getActivityMember, getActivityCapacity, joinActivity } = useActivity();
+  const { getActivityById, getActivityMember, getActivityCapacity, joinActivity, deleteActivity, quitActivity } = useActivity();
   const { member } = useMember();
 
   const [activityData, setActivityData] = useState<CardData>();
@@ -78,14 +78,18 @@ export default function Page({ params }: { params: { activityId: string } }) {
   const handleClick = async () => {
     setIsLoading(true);
     if (identity === 'Host' && activityData) {
-      // await deleteActivity(activityData.activity_id);
+      await deleteActivity(activityData.activity_id);
       if (member) toast.success('活動已刪除');
       router.push('/');
     } else if (identity === 'Participant' && activityData) {
-      // await quitActivity(activityData.activity_id);
-      // const { number_of_participant } = await getActivityCapacity(params.activityId);
+      if (!member) {
+        toast.error('請先登入');
+        return;
+      }
+      await quitActivity(activityData.activity_id, member.member_id);
+      const { number_of_participant } = await getActivityCapacity(params.activityId);
       const people = await getActivityMember(params.activityId);
-      // setCapacity(number_of_participant);
+      setCapacity(number_of_participant);
       setParticipants(people);
       if (member) toast.success('已退出活動');
     } else if (identity === '' && activityData) {

@@ -37,6 +37,25 @@ export default function useActivity() {
     return data;
   };
 
+  const quitActivity = async (activity_id: string, member_id: string) => {
+    const { data } = await instance.delete('/activity/member', {
+      params: {
+        activity_id,
+        member_id,
+      },
+    });
+    return data;  
+  };
+
+  const deleteActivity = async (activity_id: string) => {
+    const { data } = await instance.delete('/activity', {
+      params: {
+        activity_id,
+      },
+    });
+    return data;
+  };
+
   const getActivityMember = async (activity_id: string) => {
     const { data } = await instance.get('/activity/member', {
       params: {
@@ -77,5 +96,7 @@ export default function useActivity() {
     createActivity,
     getActivityMember,
     getActivityCapacity,
+    deleteActivity,
+    quitActivity,
   };
 }

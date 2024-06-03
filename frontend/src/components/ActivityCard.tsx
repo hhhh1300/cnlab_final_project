@@ -19,6 +19,7 @@ import type { ActivityData } from '@/lib/shared_types';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import useUser from '@/hooks/useUser';
+import { useMember } from '@/hooks/useMember';
 
 function formatDateTime(isoString: Date | undefined): string {
   if (!isoString) return '';
@@ -58,6 +59,7 @@ export default function ActivityCard({
 }: ActivityCardProps) {
   const [hoster, setHoster] = useState<string>('');
   const { getUserById } = useUser();
+  const { member } = useMember();
   useEffect(() => {
     if (activity) {
       getUserById(activity.hoster_id).then((data) => {
@@ -71,6 +73,7 @@ export default function ActivityCard({
     if (identity === '') return '報名活動';
   };
   const disabled = () => {
+    if (!member) return true;
     if (identity === 'Host') return false;
     if (identity === 'Participant' && (status() !== '已結束' || status() !== '已取消'))
       return false;
