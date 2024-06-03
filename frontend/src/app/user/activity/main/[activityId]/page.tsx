@@ -56,6 +56,7 @@ export default function Page({ params }: { params: { activityId: string } }) {
       setParticipants(people);
       const { number_of_participant } = await getActivityCapacity(params.activityId);
       setCapacity(number_of_participant);
+      console.log(data)
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
