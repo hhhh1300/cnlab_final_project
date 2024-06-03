@@ -10,6 +10,16 @@ export default function useActivity() {
     return data;
   };
 
+  const getUserActivity = async (member_id: string | undefined, category: string | null) => {
+    const { data, status } = await instance.get(`/activity/memberID`, {
+      params: {
+        member_id,
+        category
+      },
+    });
+    return data;
+  }
+
   const getActivityById = async (activity_id: string) => {
     const { data } = await instance.get('/activity/id', {
       params: {
@@ -59,6 +69,7 @@ export default function useActivity() {
 
   return {
     getAllActivity,
+    getUserActivity,
     getActivityById,
     joinActivity,
     createActivity,

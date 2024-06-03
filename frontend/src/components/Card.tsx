@@ -15,7 +15,7 @@ const Card = ({ data }: CardProps) => {
 
   return (
     <div
-      onClick={() => router.push(`activity/main/${data.activity_id}`)}
+      onClick={() => router.push(`/user/activity/main/${data.activity_id}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-0 w-full">

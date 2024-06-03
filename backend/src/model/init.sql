@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS MEMBER (
     name VARCHAR(50) NOT NULL,
     password VARCHAR(256) NOT NULL,
     member_role VARCHAR(11) NOT NULL CHECK (member_role IN ('Admin', 'User')) DEFAULT 'User',
-    traffic INT NOT NULL DEFAULT 0
+    traffic INT NOT NULL DEFAULT 0,
+    max_traffic INT NOT NULL DEFAULT 0
 );
 /
 CREATE TABLE IF NOT EXISTS ACTIVITY (
