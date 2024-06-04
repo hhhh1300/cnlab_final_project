@@ -12,11 +12,17 @@ export default function AdminLayout({ children }: Props) {
   useEffect(() => {                                                                                            
     fetchMember();                                                                                             
   }, [fetchMember]);
+  let cnt = 0;
   useEffect(() => {
-      if (member?.member_role == "User"){
+    console.log(member)
+      if (member?.member_role === "User"){
         window.location.href = '/user';
       }
+      else if (member?.member_role === "Admin"){
+        cnt += 1;
+      }
     }, [member]);
+
   return (
     <main className="flex-row justify-center top-0 w-full min-h-full">
       <Navbar />

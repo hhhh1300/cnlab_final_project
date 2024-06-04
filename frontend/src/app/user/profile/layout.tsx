@@ -10,6 +10,8 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   const { getName } = useUser();
   const { member } = useMember();
   const member_id  = member?.member_id;
+
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getName(member_id);
@@ -19,6 +21,9 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
       }
     };
     fetchData();
+    if (member == null){
+      window.location.href = '/user';
+    }
   }, [member, member_id]);
   return (
     
