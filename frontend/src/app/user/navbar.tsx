@@ -5,6 +5,7 @@ import { useMember } from '@/hooks/useMember';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image  from 'next/image';
 
 export default function Navbar() {
   const router = useRouter();
@@ -25,14 +26,22 @@ export default function Navbar() {
   return (
     <>
       <div className="bg-white  text-black font-semibold space-y-4 items-center">
-        <Button className="bg-white text-black h-[10vh] justify-center  hover:bg-white transition font-bold">
-          <span className="bg-black text-white h-[7vh] w-[16vh] rounded-xl transition hover:bg-black font-extrabold flex items-center justify-center">
+        {/* <Button className="bg-white text-black h-[10vh] justify-center  hover:bg-white transition font-bold"> */}
+          {/* <span className="bg-black text-white h-[7vh] w-[16vh] rounded-xl transition hover:bg-black font-extrabold flex items-center justify-center"> */}
             <Link href="/user" className="text-sm lg:text-lg">
-              EngageNTU
+              <Button className="relative  rounded-xl bg-slate-400 bg-white text-black font-semibold items-center w-[16vh] h-[16vh] pt-20 ml-5">
+              <Image fill
+              className="object-cover h-full group-hover:scale-110 transition"
+              src={'/images/logo.png'}
+              alt="EnageNTU"
+              priority sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vh"/>
+              </Button>
+          
             </Link>
-          </span>
-        </Button>
-       
+            
+          {/* </span> */}
+        {/* </Button> */}
+       <div className="bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5">
         {member && (
           <Button
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
@@ -69,7 +78,7 @@ export default function Navbar() {
 
         
         <div
-          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 ${
+          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 mt-4 ${
             lastSegment === 'login' ? 'font-bold' : ''
           }`}
         >
@@ -83,6 +92,7 @@ export default function Navbar() {
               Logout
             </Button>
           )}
+        </div>
         </div>
       </div>
     </>

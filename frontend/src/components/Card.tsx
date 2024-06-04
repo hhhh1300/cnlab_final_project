@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { format } from 'react-string-format';
 
 import type { ActivityData } from '@/lib/shared_types';
 import { FaLocationDot } from 'react-icons/fa6';
@@ -13,7 +12,6 @@ interface CardProps {
 
 const Card = ({ data }: CardProps) => {
   const router = useRouter();
-  console.log(format('/images/{data.activity_tag}.jpg'))
   return (
     <div
       onClick={() => router.push(`/user/activity/main/${data.activity_id}`)}
@@ -24,7 +22,7 @@ const Card = ({ data }: CardProps) => {
           <Image
             fill
             className="object-cover h-full w-full group-hover:scale-110 transition"
-            src={format('/images/'+data.activity_tag+'.jpg')}
+            src={'/images/'+data.activity_tag+'.jpg'}
             alt="Listing"
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
