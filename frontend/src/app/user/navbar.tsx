@@ -32,7 +32,9 @@ export default function Navbar() {
             </Link>
           </span>
         </Button>
-        <Button
+       
+        {member && (
+          <Button
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
             lastSegment === 'profile' ? 'font-bold' : ''
           }`}
@@ -41,6 +43,8 @@ export default function Navbar() {
             Profile
           </Link>
         </Button>
+        )}
+        
         <Button
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
             lastSegment === 'activity' ? 'font-bold' : ''
@@ -50,7 +54,9 @@ export default function Navbar() {
             Activity List
           </Link>
         </Button>
-        <Button
+
+        {member && (
+          <Button
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
             lastSegment === 'create_activities' ? 'font-bold' : ''
           }`}
@@ -59,6 +65,9 @@ export default function Navbar() {
             Create Activities
           </Link>
         </Button>
+        )}
+
+        
         <div
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 ${
             lastSegment === 'login' ? 'font-bold' : ''
