@@ -25,7 +25,7 @@ export default function Page() {
 
   return (
     <main>
-      <div className="pl-6 pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-9 ">
         {activityData?.map((card) => <Card key={card.activity_id} data={card} />)}
       </div>
     </main>

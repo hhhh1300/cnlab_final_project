@@ -21,7 +21,7 @@ export default function Navbar() {
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "activity" ? "font-bold" : ""}`}>
                 <Link href="/user/profile/activity" className="text-sm lg:text-lg">
-                Activities
+                My Activities
                 </Link>
             </Button>
             <Button className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${lastSegment === "transaction" ? "font-bold" : ""}`}>

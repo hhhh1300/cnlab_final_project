@@ -4,6 +4,14 @@ import Navbar from '@/app/user/profile/navbar';
 import { useState, useEffect } from 'react';
 import { useUser, useMember }  from '@/hooks/useMember';
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const [name, setName] = useState();
@@ -27,12 +35,18 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   }, [member, member_id]);
   return (
     
-    <>
-        <div className='bg-white text-center text-black rounded-lg h-[10vh] transition font-semibold'> {name} </div>
-        <Navbar />
-        <br />
-        <main className='flex justify-center'>{children}</main>
-    </>
+    <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
+        <CardHeader className="bg-gray-50 p-6 text-center text-bold">
+         <CardTitle className="text-2xl font-semibold text-gray-900">
+          <span className="font-bold">{name}</span>
+         </CardTitle>
+        </CardHeader>
+        <CardContent className="bg-white p-6 space-y-6">
+          <Navbar />
+          <br />
+          <main className='flex justify-center'>{children}</main>
+        </CardContent>
+    </Card>
         
   );
 }

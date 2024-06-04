@@ -198,7 +198,7 @@ export default function CreateActivitySheet({
                   <SelectContent>
                     <SelectItem value="Sport">運動</SelectItem>
                     <SelectItem value="PhoneGames">手遊</SelectItem>
-                    <SelectItem value="readings">讀書會</SelectItem>
+                    <SelectItem value="Readings">讀書會</SelectItem>
                     <SelectItem value="others">其他</SelectItem>
                   </SelectContent>
                 </Select>

@@ -8,6 +8,16 @@ import { useState, useEffect } from 'react';
 import ProfileLayout from '@/app/user/profile/layout';
 import { useUser, useMember }  from '@/hooks/useMember';
 
+import { Progress } from "@/components/ui/progress"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export default function Page() {
   const [traffic, setTraffic] = useState();
@@ -28,11 +38,17 @@ export default function Page() {
   }, [member, member_id]);
 
   return (
-    <>
-      <div className='bg-white text-center text-black rounded-lg transition font-semibold flex flex-col justify-center h-[20vh]'> 
-        Remain traffic: {traffic} 
+     <div className='bg-white '>
+      <div className="flex items-center space-x-9">
+        <Progress value={ traffic/1000} />
       </div>
-    </>
+      <br/>
+      <div className="flex items-center space-x-9">
+        <span className="text-gray-600">剩餘流量: {traffic} bytes</span>
+      
+      
+      </div>
+    </div>
     
   );
 }
