@@ -170,6 +170,28 @@ export const getActivityByStatus = async (req: Request, res: Response) => {
   });
 };
 
+export const getActivityByOfficial = async (req: Request, res: Response) => {
+  const { activity_id } = req.query;
+
+  const query = "SELECT * FROM ACTIVITY WHERE activity_type = 'official'";
+  const values = [activity_id];
+
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, values, (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
+};
 export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
   console.log('joinActivity', activity_id, member_id);

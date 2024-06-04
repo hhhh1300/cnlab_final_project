@@ -30,7 +30,7 @@ interface Activity {
   activity_type: "non-official" | "official";
 }
 
-const AuditActivity = () => {
+const OfficialActivity = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +39,7 @@ const AuditActivity = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await axios.get<Activity[]>('http://localhost:8080/api/activity/status');
+        const response = await axios.get<Activity[]>('http://localhost:8080/api/activity/official');
         setActivities(response.data);
       } catch (error: any) {
         setError(error.message);
@@ -50,30 +50,6 @@ const AuditActivity = () => {
 
     fetchActivities();
   }, []);
-
-  const handleApprove = async (id: string) => {
-    try {
-      await axios.patch(`http://localhost:8080/api/activity/${id}/status`, { status: 'passed' });
-      setActivities(activities.map(activity => 
-        activity.activity_id === id ? { ...activity, status: 'passed' } : activity
-      ));
-      // location.reload();
-    } catch (error: any) {
-      console.error('Error updating status:', error.message);
-    }
-  };
-
-  const handleReject = async (id: string) => {
-    try {
-      await axios.patch(`http://localhost:8080/api/activity/${id}/status`, { status: 'cancelled' });
-      setActivities(activities.map(activity => 
-        activity.activity_id === id ? { ...activity, status: 'cancelled' } : activity
-      ));
-      // location.reload();
-    } catch (error: any) {
-      console.error('Error updating status:', error.message);
-    }
-  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -96,18 +72,9 @@ const AuditActivity = () => {
               <p><strong>Location:</strong> {activity.location}</p>
               <p><strong>Traffic Capacity:</strong> {activity.traffic_capacity}</p>
               <p><strong>Member Capacity:</strong> {activity.member_capacity}</p>
-              <p><strong>Reason:</strong> {activity.applying_reason}</p>
-              <p><strong>Status:</strong> {activity.status}</p>
   
             </CardContent>
-            <CardFooter>
-              {activity.status === "reviewing" && (
-                <div>
-                  <Button onClick={() => handleApprove(activity.activity_id)}>Approve</Button>
-                  <Button onClick={() => handleReject(activity.activity_id)} style={{ marginLeft: "10px" }}>Reject</Button>
-                </div>
-              )}
-            </CardFooter>
+            
           </Card>
         ))}
       </ul>
@@ -115,4 +82,4 @@ const AuditActivity = () => {
   );
 }
 
-export default AuditActivity;
+export default OfficialActivity;
