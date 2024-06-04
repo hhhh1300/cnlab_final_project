@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { format } from 'react-string-format';
 
 import type { ActivityData } from '@/lib/shared_types';
 import { FaLocationDot } from 'react-icons/fa6';
