@@ -6,13 +6,16 @@ import ToasterContext from '@/context/ToasterProvider';
 const font = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Database Final',
-  description: 'Our final project for database.',
+  title: 'EngageNTU',
+  description: 'Our Final project.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-tw">
+      <head>
+        <link rel="icon" href="/images/logo.png"/>
+      </head>
       <body className={font.className}>
         <ToasterContext />
         <div className="p-0 m-0">{children}</div>

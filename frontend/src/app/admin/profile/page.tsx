@@ -65,16 +65,12 @@ const SearchProfile = () => {
             />
           </span>
         </div>
-        <span className="ml-1 text-gray-900">
-          <Button onClick={handleSearch}>Search</Button>
-        </span>
-        {loading && <p>Loading...</p>}
         {submitted && (
           <>
             {error && <p className="text-red-500">{error}</p>}
             {profile ? (
               <div>
-                <h2>Profile Details</h2>
+                {/*<h2>Profile Details</h2>*/}
                 <p><strong>Name:</strong> {profile.name}</p>
                 <p><strong>Role:</strong> {profile.member_role}</p>
                 <p><strong>Traffic:</strong> {profile.traffic}</p>
@@ -84,8 +80,15 @@ const SearchProfile = () => {
             )}
           </>
         )}
-      </CardContent>
-      <CardFooter />
+        </CardContent>
+        <CardFooter >
+        <span className="ml-1 text-gray-900">
+          <Button onClick={handleSearch}>Search</Button>
+        </span>
+        {loading && <p>Loading...</p>}
+        
+      
+      </CardFooter>
     </Card>
   );
 }

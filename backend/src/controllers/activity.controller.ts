@@ -299,6 +299,7 @@ export const createActivity = async (req: Request, res: Response) => {
   const activity_type = req.body.params.isOfficial ? 'official' : 'non-official';
   const activity_id = uuidv4();
   let result:any;
+  const status = req.body.params.isOfficial ? 'passed' : 'reviewing';
   pool.getConnection((err: any, connection: any) => {
     if (err) {
       console.error(err);
@@ -317,7 +318,7 @@ export const createActivity = async (req: Request, res: Response) => {
           dates_new[2],
           dates_new[3],
           payload.activity_location,
-          'reviewing',
+          status,
           payload.traffic_capacity,
           payload.member_capacity,
           payload.activity_tag,
