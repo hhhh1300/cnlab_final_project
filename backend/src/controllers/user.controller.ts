@@ -5,79 +5,79 @@ import passport from 'passport';
 import { pool } from '@/model/init';
 
 export const getUserName = async (req: Request, res: Response) => {
-    console.log('getUserName');
-    const member_id = req.query.member_id;
-  
-    const query = `
+  console.log('getUserName');
+  const member_id = req.query.member_id;
+
+  const query = `
         SELECT name
         FROM member
         where member_id = ?;
         `;
-    pool.getConnection((err: any, connection: any) => {
-      if (err) {
-        console.error(err);
-        res.status(400).json(err);
-      } else {
-        connection.query(query, [member_id], (err: any, rows: any) => {
-          if (err) {
-            console.error(err);
-            res.status(400).json(err);
-          }
-          res.status(200).json(rows);
-          connection.release();
-        });
-      }
-    });
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, [member_id], (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
 };
 
 export const getUserTraffic = async (req: Request, res: Response) => {
-    console.log('getUserTraffic');
-    const member_id = req.query.member_id;
-  
-    const query = `
+  console.log('getUserTraffic');
+  const member_id = req.query.member_id;
+
+  const query = `
         SELECT traffic
         FROM member
         where member_id = ?;
         `;
-    pool.getConnection((err: any, connection: any) => {
-      if (err) {
-        console.error(err);
-        res.status(400).json(err);
-      } else {
-        connection.query(query, [member_id], (err: any, rows: any) => {
-          if (err) {
-            console.error(err);
-            res.status(400).json(err);
-          }
-          res.status(200).json(rows);
-          connection.release();
-        });
-      }
-    });
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, [member_id], (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
 };
-  
+
 export const getTrafficByName = async (req: Request, res: Response) => {
-    console.log('getUserTraffic');
-    const name = req.query.name;
-  
-    const query = `
+  console.log('getUserTraffic');
+  const name = req.query.name;
+
+  const query = `
         SELECT traffic FROM Member WHERE name = ?
         `;
-    pool.getConnection((err: any, connection: any) => {
-      if (err) {
-        console.error(err);
-        res.status(400).json(err);
-      } else {
-        connection.query(query, [name], (err: any, rows: any) => {
-          if (err) {
-            console.error(err);
-            res.status(400).json(err);
-          }
-          res.status(200).json(rows);
-          connection.release();
-        });
-      }
-    });
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, [name], (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows);
+        connection.release();
+      });
+    }
+  });
 };
 
 export const register = async (req: Request, res: Response) => {
@@ -147,6 +147,26 @@ export const getUserByName = async (req: Request, res: Response) => {
       res.status(400).json(err);
     } else {
       connection.query(query, [name], (err: any, rows: any) => {
+        if (err) {
+          console.error(err);
+          res.status(400).json(err);
+        }
+        res.status(200).json(rows[0]);
+        connection.release();
+      });
+    }
+  });
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  const { member_id } = req.query;
+  const query = 'SELECT * FROM member WHERE member_id = ?';
+  pool.getConnection((err: any, connection: any) => {
+    if (err) {
+      console.error(err);
+      res.status(400).json(err);
+    } else {
+      connection.query(query, [member_id], (err: any, rows: any) => {
         if (err) {
           console.error(err);
           res.status(400).json(err);

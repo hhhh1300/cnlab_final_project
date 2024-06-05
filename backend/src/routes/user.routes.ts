@@ -1,4 +1,14 @@
-import { getUserName, getUserTraffic, getTrafficByName, getUserByName, isLogin, login, logout, register } from '@/controllers/user.controller';
+import {
+  getUserName,
+  getUserTraffic,
+  getTrafficByName,
+  getUserByName,
+  isLogin,
+  login,
+  logout,
+  register,
+  getUserById,
+} from '@/controllers/user.controller';
 import { isAuth } from '@/utils/isAuth';
 import express from 'express';
 
@@ -12,5 +22,6 @@ router.post('/logout', logout);
 router.post('/register', register);
 router.get('/isLogin', isAuth, isLogin);
 router.get('/name', getUserByName);
+router.get('/id', getUserById);
 
 export default router;
