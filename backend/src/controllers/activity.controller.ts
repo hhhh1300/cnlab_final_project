@@ -119,10 +119,7 @@ export const getUserActivity = async (req: Request, res: Response) => {
       }
     });
   }
-
-  
 };
-
 
 export const getActivityById = async (req: Request, res: Response) => {
   const { activity_id } = req.query;
@@ -196,7 +193,8 @@ export const joinActivity = async (req: Request, res: Response) => {
   const { activity_id, member_id } = req.body;
   console.log('joinActivity', activity_id, member_id);
 
-  const query = 'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
+  const query =
+    'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
   const values = [activity_id, member_id, 'participant'];
 
   pool.getConnection((err: any, connection: any) => {
@@ -266,7 +264,7 @@ export const createActivity = async (req: Request, res: Response) => {
   console.log('createActivity');
   const payload = req.body.params.payload;
   const dates = req.body.params.dates;
-  const id = req.body.params.id
+  const id = req.body.params.id;
   console.log(dates);
   const dates_new = [
     new Date(dates[0]),
@@ -284,10 +282,10 @@ export const createActivity = async (req: Request, res: Response) => {
       activity_content,
       title,
       applying_reason,
-      event_start_timestamp,
-      event_end_timestamp,
       register_start_timestamp,
       register_end_timestamp,
+      event_start_timestamp,
+      event_end_timestamp,
       location,
       status,
       traffic_capacity,
@@ -298,7 +296,7 @@ export const createActivity = async (req: Request, res: Response) => {
       `;
   const activity_type = req.body.params.isOfficial ? 'official' : 'non-official';
   const activity_id = uuidv4();
-  let result:any;
+  let result: any;
   const status = req.body.params.isOfficial ? 'passed' : 'reviewing';
   pool.getConnection((err: any, connection: any) => {
     if (err) {
@@ -332,39 +330,28 @@ export const createActivity = async (req: Request, res: Response) => {
           result = rows;
           // res.status(200).json(rows);
           connection.release();
-          const query_2 = 'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
-  pool.getConnection((err: any, connection: any) => {
-    if (err) {
-      console.error(err);
-      res.status(400).json(err);
-    } else {
-      connection.query(
-        query_2,
-        [
-          activity_id,
-          id,
-          'hoster',
-        ],
-        (err: any, rows: any) => {
-          if (err) {
-            console.error(err);
-            res.status(400).json(err);
-          }
-          res.status(200).json(rows);
-          connection.release();
+          const query_2 =
+            'INSERT INTO activity_role (activity_id, member_id, activity_role) VALUES (?, ?, ?)';
+          pool.getConnection((err: any, connection: any) => {
+            if (err) {
+              console.error(err);
+              res.status(400).json(err);
+            } else {
+              connection.query(query_2, [activity_id, id, 'hoster'], (err: any, rows: any) => {
+                if (err) {
+                  console.error(err);
+                  res.status(400).json(err);
+                }
+                res.status(200).json(rows);
+                connection.release();
+              });
+            }
+          });
         }
       );
     }
+    console.log(result);
   });
-        }
-
-      );
-    }
-    console.log(result)
-    
-  });
-
-  
 };
 
 export const getActivityMember = async (req: Request, res: Response) => {
@@ -426,13 +413,16 @@ export const changeActivityStatus = async (req: Request, res: Response) => {
   }
 
   try {
-    const [result] = await pool.query("UPDATE ACTIVITY SET status = ? WHERE activity_id = ?", [status, id]);
+    const [result] = await pool.query('UPDATE ACTIVITY SET status = ? WHERE activity_id = ?', [
+      status,
+      id,
+    ]);
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Activity not found' });
     }
     res.status(200).json({ message: 'Activity status updated successfully' });
   } catch (error) {
-    const errorMessage = (error instanceof Error) ? error.message : 'Unknown error';
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     res.status(500).json({ error: errorMessage });
   }
 };
