@@ -48,7 +48,7 @@ export default function Navbar() {
           }`}
         >
           <Link href="/admin/activity/manage" className="text-sm lg:text-lg">
-            Audit Activity
+            Manage Activity
           </Link>
         </Button>
         <Button
@@ -56,7 +56,7 @@ export default function Navbar() {
             lastSegment === 'activity' ? 'font-bold' : ''
           }`}
         >
-          <Link href="/admin/activity" className="text-sm lg:text-lg">
+          <Link href="/admin/official" className="text-sm lg:text-lg">
             Official Activity List
           </Link>
         </Button>

@@ -20,23 +20,27 @@ interface Profile {
 }
 
 const SearchProfile = () => {
-  const [searchId, setSearchId] = useState<string>("");
+  const [searchName, setSearchName] = useState<string>("");
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false); 
 
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
     setProfile(null);
+    setSubmitted(false);
 
     try {
-      const response = await axios.get<Profile>('http://localhost:8080/api/user/id', {
-        params: { member_id: searchId },
+      const response = await axios.get<Profile>('http://localhost:8080/api/user/name', {
+        params: { name: searchName },
       });
       setProfile(response.data);
+      setSubmitted(true); 
     } catch (error: any) {
       setError(error.message || "Error fetching profile");
+      setSubmitted(true); 
     } finally {
       setLoading(false);
     }
@@ -51,35 +55,37 @@ const SearchProfile = () => {
       </CardHeader>
       <CardContent className="bg-white p-6 space-y-6">
         <div>
-          <span className="text-gray-600 items-center">Student ID</span>
+          <span className="text-gray-600 items-center">User Name</span>
           <span className="ml-4 text-gray-900">
             <Input
               type="text"
-              placeholder="Enter Student ID"
-              value={searchId}
-              onChange={(e) => setSearchId(e.target.value)}
+              placeholder="Enter User Name"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
             />
           </span>
         </div>
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {profile ? (
-          <div>
-            <h2>Profile Details</h2>
-            <p><strong>Member ID:</strong> {profile.member_id}</p>
-            <p><strong>Name:</strong> {profile.name}</p>
-            <p><strong>Role:</strong> {profile.member_role}</p>
-            <p><strong>Traffic:</strong> {profile.traffic}</p>
-          </div>
-        ) : (
-          !loading && searchId && <p>No profile found for ID {searchId}</p>
-        )}
-      </CardContent>
-      <CardFooter>
         <span className="ml-1 text-gray-900">
           <Button onClick={handleSearch}>Search</Button>
         </span>
-      </CardFooter>
+        {loading && <p>Loading...</p>}
+        {submitted && (
+          <>
+            {error && <p className="text-red-500">{error}</p>}
+            {profile ? (
+              <div>
+                <h2>Profile Details</h2>
+                <p><strong>Name:</strong> {profile.name}</p>
+                <p><strong>Role:</strong> {profile.member_role}</p>
+                <p><strong>Traffic:</strong> {profile.traffic}</p>
+              </div>
+            ) : (
+              !loading && <p>No profile found for name {searchName}</p>
+            )}
+          </>
+        )}
+      </CardContent>
+      <CardFooter />
     </Card>
   );
 }

@@ -138,15 +138,15 @@ export const isLogin = (req: Request, res: Response) => {
   res.status(200).json(req.user);
 };
 
-export const getUserById = async (req: Request, res: Response) => {
-  const { member_id } = req.query;
-  const query = 'SELECT * FROM member WHERE member_id = ?';
+export const getUserByName = async (req: Request, res: Response) => {
+  const { name } = req.query;
+  const query = 'SELECT * FROM member WHERE name = ?';
   pool.getConnection((err: any, connection: any) => {
     if (err) {
       console.error(err);
       res.status(400).json(err);
     } else {
-      connection.query(query, [member_id], (err: any, rows: any) => {
+      connection.query(query, [name], (err: any, rows: any) => {
         if (err) {
           console.error(err);
           res.status(400).json(err);

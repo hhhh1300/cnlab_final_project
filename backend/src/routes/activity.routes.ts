@@ -10,6 +10,7 @@ import {
   changeActivityStatus,
   quitActivity,
   deleteActivity,
+  getActivityByOfficial,
 } from '@/controllers/activity.controller';
 import express from 'express';
 import { isAuth } from '@/utils/isAuth';
@@ -25,6 +26,7 @@ router.get('/id', getActivityById);
 router.get('/member', getActivityMember);
 router.get('/capacity', getActivityCapacity);
 router.get('/status', getActivityByStatus);
+router.get('/official', getActivityByOfficial);
 router.patch('/:id/status', changeActivityStatus);
 
 router.delete('/member', quitActivity);
