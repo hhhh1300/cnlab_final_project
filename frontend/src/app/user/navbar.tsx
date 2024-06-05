@@ -41,7 +41,7 @@ export default function Navbar() {
             
           {/* </span> */}
         {/* </Button> */}
-       <div className="bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5">
+       <div className="bg-white text-black rounded-lg h-[10vh] font-semibold float-right mr-5">
         {member && (
           <Button
           className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
@@ -66,7 +66,7 @@ export default function Navbar() {
 
         {member && (
           <Button
-          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold ${
+          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100  font-semibold ${
             lastSegment === 'create_activities' ? 'font-bold' : ''
           }`}
         >
@@ -78,7 +78,7 @@ export default function Navbar() {
 
         
         <div
-          className={`bg-white text-black rounded-lg h-[10vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 mt-4 ${
+          className={`bg-white text-black rounded-lg h-[6vh] hover:bg-neutral-100 transition font-semibold float-right mr-5 mt-4 items-center justify-center align-middle ${
             lastSegment === 'login' ? 'font-bold' : ''
           }`}
         >
