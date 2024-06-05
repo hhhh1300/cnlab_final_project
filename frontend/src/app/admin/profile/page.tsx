@@ -46,6 +46,26 @@ const SearchProfile = () => {
     }
   };
 
+  const handleTrafficChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (profile) {
+      setProfile({ ...profile, traffic: Number(e.target.value) });
+    }
+  };
+
+  const handleSaveTraffic = async () => {
+    if (profile) {
+      try {
+        await axios.patch('http://localhost:8080/api/user/ChangeTraffic', {
+          member_id: profile.member_id,
+          traffic: profile.traffic,
+        });
+        alert('Traffic updated successfully');
+      } catch (error: any) {
+        alert('Error updating traffic: ' + error.message);
+      }
+    }
+  };
+
   return (
     <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
       <CardHeader className="bg-gray-50 p-6">
@@ -70,24 +90,29 @@ const SearchProfile = () => {
             {error && <p className="text-red-500">{error}</p>}
             {profile ? (
               <div>
-                {/*<h2>Profile Details</h2>*/}
                 <p><strong>Name:</strong> {profile.name}</p>
                 <p><strong>Role:</strong> {profile.member_role}</p>
-                <p><strong>Traffic:</strong> {profile.traffic}</p>
+                <p>
+                  <strong>Traffic:</strong>
+                  <Input
+                    type="number"
+                    value={profile.traffic}
+                    onChange={handleTrafficChange}
+                  />
+                  <Button onClick={handleSaveTraffic} className="ml-2">Save</Button>
+                </p>
               </div>
             ) : (
               !loading && <p>No profile found for name {searchName}</p>
             )}
           </>
         )}
-        </CardContent>
-        <CardFooter >
+      </CardContent>
+      <CardFooter>
         <span className="ml-1 text-gray-900">
           <Button onClick={handleSearch}>Search</Button>
         </span>
         {loading && <p>Loading...</p>}
-        
-      
       </CardFooter>
     </Card>
   );

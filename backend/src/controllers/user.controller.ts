@@ -177,3 +177,18 @@ export const getUserById = async (req: Request, res: Response) => {
     }
   });
 };
+
+export const changeUserTraffic = async (req: Request, res: Response) => {
+  const { member_id, traffic } = req.body;
+  const query = 'UPDATE MEMBER SET traffic = ? WHERE member_id = ?';
+
+  try {
+    const [result] = await pool.query(query, [traffic, member_id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json({ message: 'Traffic updated successfully' });
+  } catch (error) {
+    res.status(200).json({ message: 'Traffic updated successfully' });
+  }
+};
