@@ -1,14 +1,8 @@
 'use client';
 
-import { useState } from "react";
-import axios from "axios";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { useState } from 'react';
+import axios from 'axios';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -20,11 +14,11 @@ interface Profile {
 }
 
 const SearchProfile = () => {
-  const [searchName, setSearchName] = useState<string>("");
+  const [searchName, setSearchName] = useState<string>('');
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState<boolean>(false); 
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleSearch = async () => {
     setLoading(true);
@@ -37,10 +31,10 @@ const SearchProfile = () => {
         params: { name: searchName },
       });
       setProfile(response.data);
-      setSubmitted(true); 
+      setSubmitted(true);
     } catch (error: any) {
-      setError(error.message || "Error fetching profile");
-      setSubmitted(true); 
+      setError(error.message || 'Error fetching profile');
+      setSubmitted(true);
     } finally {
       setLoading(false);
     }
@@ -69,9 +63,7 @@ const SearchProfile = () => {
   return (
     <Card className="w-screen max-w-xl mx-auto mt-10 shadow-lg rounded-lg overflow-hidden flex flex-col">
       <CardHeader className="bg-gray-50 p-6">
-        <CardTitle className="text-2xl font-semibold text-gray-900">
-          Search User Profile
-        </CardTitle>
+        <CardTitle className="text-2xl font-semibold text-gray-900">Search User Profile</CardTitle>
       </CardHeader>
       <CardContent className="bg-white p-6 space-y-6">
         <div>
@@ -90,16 +82,18 @@ const SearchProfile = () => {
             {error && <p className="text-red-500">{error}</p>}
             {profile ? (
               <div>
-                <p><strong>Name:</strong> {profile.name}</p>
-                <p><strong>Role:</strong> {profile.member_role}</p>
+                <p>
+                  <strong>Name:</strong> {profile.name}
+                </p>
+                <p>
+                  <strong>Role:</strong> {profile.member_role}
+                </p>
                 <p>
                   <strong>Traffic:</strong>
-                  <Input
-                    type="number"
-                    value={profile.traffic}
-                    onChange={handleTrafficChange}
-                  />
-                  <Button onClick={handleSaveTraffic} className="ml-2">Save</Button>
+                  <Input type="number" value={profile.traffic} onChange={handleTrafficChange} />
+                  <Button onClick={handleSaveTraffic} className="ml-2 mt-2">
+                    Save
+                  </Button>
                 </p>
               </div>
             ) : (
@@ -116,6 +110,6 @@ const SearchProfile = () => {
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default SearchProfile;
